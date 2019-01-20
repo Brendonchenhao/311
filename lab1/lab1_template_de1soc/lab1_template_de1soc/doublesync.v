@@ -2,7 +2,8 @@ module doublesync(indata,
 				  outdata,
 				  clk,
 				  reset);
-
+// This function is like a 2 reg shift register
+// BUt not serial to parallel.
 input indata,clk,reset;
 output outdata;
 

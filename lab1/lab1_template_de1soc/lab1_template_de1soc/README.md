@@ -2,18 +2,18 @@ Lab 1
 ===
 ## Task 1
 design a frequency divider, and use sw to control different outputs
-[Link to the line ](/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L205)
+[Link to the line ](/lab1/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L205)
 
 ## Task 2
 Use sw[0] to turn on and off the audio. Included in task 1
 ## Task 3
 Display the note's name and it's signal in the Scope's Info A
-[Link to the line ](/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L419)
+[Link to the line ](/lab1/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L419)
 ## Task 4
 Change the Information Console's display 1 and 2
-[Link to the line ](/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L439)
-![LCD display idle screen shoot](/lab1_template_de1soc/lab1_template_de1soc/initialization_state.jpg)
-![LCD dynamic display screen shoot](/lab1_template_de1soc/lab1_template_de1soc/changed_state.jpg)
+[Link to the line ](/lab1/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L439)
+![LCD display idle screen shoot](/lab1/lab1_template_de1soc/lab1_template_de1soc/initialization_state.jpg)
+![LCD dynamic display screen shoot](/lab1/lab1_template_de1soc/lab1_template_de1soc/changed_state.jpg)
 ## Task 5
 Change the LED every 1 second.
 [Link to the line ](/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L333)

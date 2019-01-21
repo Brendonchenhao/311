@@ -2,7 +2,7 @@ Lab 1
 ===
 ## Task 1
 design a frequency divider, and use sw to control different outputs
-[Link to the line ](/lab1/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L205)
+[Link to the line ](https://github.com/Rainerino/311/blob/master/lab1/lab1_template_de1soc/lab1_template_de1soc/Basic_Organ_Solution.v#L205)
 
 ## Task 2
 Use sw[0] to turn on and off the audio. Included in task 1

@@ -1,5 +1,4 @@
 module widereg(indata,outdata,inclk);
-
 parameter width = 8;
 input [width-1:0] indata;
 output [width-1:0] outdata;

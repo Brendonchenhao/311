@@ -2,3 +2,4 @@
 /lab2_template_de1soc/*
 # /lab2_template_de1soc/!*.v
 !*.v
+*.sof

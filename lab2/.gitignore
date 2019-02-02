@@ -1,8 +1,9 @@
 *.pdf
 /lab2_template_de1soc/db
 /lab2_template_de1soc/incremental_db
-!/lab2_template_de1soc/*.v
 /lab2_template_de1soc/*
+!/lab2_template_de1soc/*.v
+!/lab2_template_de1soc/*.md
 /output_files
 !*.v
 *.sof

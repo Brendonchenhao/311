@@ -21,8 +21,16 @@ Lab 2: Simple iPod
 4. Interface
    - [speed count](./simple_ipod_solution.v#L555) (change the sameple space)
    - [read keyboard input](./simple_ipod_solution.v#L312)
+     - [keyboard praser](./key2ascii.v)
+     - [keyboard controller](./Kbd_ctrl.v#L22)
+       - The output is kbd_data. I think we can assume that the kbd_recevied_ascii_code is the final data we get, after prasing. 
    - [Clock_divider](./simple_ipod_solution.v#L359)
-   - [audio_data change](./simple_ipod_solution.v#L257)
+   - [audio_data](./simple_ipod_solution.v#L257)
+     - Audio data is that: the sample is a 16 bits data that is not signed, means that it's ranged from -8 bits of audio amplitude to + 8 bits amplitude. We need to tanslate that 16 bits to 8 bits. 
+   - [flash memory interface]()
+   - Describsion of the interface of Altera Generic QUad SPI Controller[![Image from Gyazo](https://i.gyazo.com/5765ff904bc5c8ecba6d1367d69f9390.png)](https://gyazo.com/5765ff904bc5c8ecba6d1367d69f9390)
+   - Specification on the signals[![Image from Gyazo](https://i.gyazo.com/7963adba22f50d6f8e9f80204f5e9ed1.png)](https://gyazo.com/7963adba22f50d6f8e9f80204f5e9ed1)
+   - Examples of Piplining reading. [![Image from Gyazo](https://i.gyazo.com/6031d1efa08256ae7c91185590bd7fe9.png)](https://gyazo.com/6031d1efa08256ae7c91185590bd7fe9)
    - 
 5. 
 
@@ -32,7 +40,7 @@ Lab 2: Simple iPod
 # Part 3: Just do it
 Open the file "simple_ipod_solution.v". Look inside this
 file Write_Kbd_To_Scope_LCD modules, Kbd_ctrl and key2ascii.
-These modules are already written and work well, no need to
+These modules are already written and work well, no need t
 change them. However, I recommend that you enter the modules
 to see how they work. Overall, Kbd_ctrl manages the
 interface with the keyboard, and outputs the variable

@@ -224,7 +224,10 @@ wire Sample_Clk_Signal;
 //
 //
 
-
+assign flash_mem_write = 1’b0;
+assign flash_mem_writedata = 32’b0;
+assign flash_mem_burstcount = 6’b000001;
+//=======================================================================================================================
 
 
 wire            flash_mem_read;
@@ -248,7 +251,7 @@ flash flash_inst (
     .flash_mem_readdatavalid (flash_mem_readdatavalid),
     .flash_mem_byteenable    (flash_mem_byteenable)
 );
-            
+                                                                                                                                                                                                                                                                                       
 
 assign Sample_Clk_Signal = Clock_1KHz;
 

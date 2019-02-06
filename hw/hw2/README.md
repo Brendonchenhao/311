@@ -1,15 +1,18 @@
-Homework 2
+[Homework 2](https://drive.google.com/file/d/0By2-dmbuBCMTVXBFYlFGaXJ1R0k/view)
 ===
-# Question 1
-## compile the state machine
-## annotated simulation
-## handin the schematic of the logic
+# [Question 1](./q1.sv#L1)
+- compile the state machine
+  - 
+- annotated simulation
+  - this is a restart and pause state machine. 
+- handin the schematic of the logic
+[![Image from Gyazo](https://i.gyazo.com/958076951ad6848228d1f818f516201e.png)](https://gyazo.com/958076951ad6848228d1f818f516201e)
 
 # Question 2
 ## implement verilog code for the state machine
 ## compile in quartus, hand in annotated simulation
 ## hand-drawn schematics of the logic
-
+[![Image from Gyazo](https://i.gyazo.com/bcba2f1775a7cbf4f79ffa663e6578d1.png)](https://gyazo.com/bcba2f1775a7cbf4f79ffa663e6578d1)
 # Question 3
 ## hand-drawn schematics of fsm "viterbi_ctrl"
 [![Image from Gyazo](https://i.gyazo.com/1ea0f77eb221932699c62d9a22518b72.png)](https://gyazo.com/1ea0f77eb221932699c62d9a22518b72)

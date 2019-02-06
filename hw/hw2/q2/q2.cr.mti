@@ -1,0 +1,8 @@
+C:/Users/yanyi/Documents/Collections/2019Spring/CPEN311/lab/hw/hw2/q2/tb_q2.sv {1 {vlog -work work -sv -stats=none C:/Users/yanyi/Documents/Collections/2019Spring/CPEN311/lab/hw/hw2/q2/tb_q2.sv
+Model Technology ModelSim ALTERA vlog 10.3c Compiler 2014.09 Sep 20 2014
+-- Compiling module tb_fsm
+
+Top level modules:
+	tb_fsm
+
+} {} {}}

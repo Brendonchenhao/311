@@ -62,4 +62,14 @@ It's already written here: [gotocode](./simple_ipod_solution.v#227)
 make it glicth free. Use the output included covention. 
 ### 2.2 FSM for control. 
 
-
+# Part 5: final check
+|name | percent % | comment|
+|---|---|---|
+|flowchart | 10 | |
+|clock divider | | |
+|functionality |40 | |
+|read/comments |10 | |
+|modulization |10 | |
+|explaination |10 | |
+|efficiency |10 | |
+|Bonus |15 | |

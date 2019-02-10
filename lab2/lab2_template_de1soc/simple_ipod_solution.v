@@ -223,12 +223,31 @@ wire Sample_Clk_Signal;
 // Insert your code for Lab2 here!
 //
 //
+//Generate the oscilloscope clock
+wire [15:0] long_audio_data;
+wire CLK_22K;
+Generate_Arbitrary_Divided_Clk32 
+Generate_CLK_22K(
+.inclk(CLK_50M),
+.outclk(CLK_22K),
+.outclk_Not(),
+.div_clk_count(2273),
+.Reset(1'h1));
+lab2_controller lc(.CLK_50M(CLK_50M),
+                .CLK_22K(CLK_22K),
+                .rst_n(1'b1),
+                .kbd_data_ready(kbd_data_ready),
+                .kbd_received_ascii_code(kbd_received_ascii_code),
+                .flash_mem_readdatavalid(flash_mem_readdatavalid),
+                .flash_mem_readdata(flash_mem_readdata),
+                .flash_mem_waitrequest(flash_mem_waitrequest),
+                .flash_mem_read(flash_mem_read),
+                .flash_mem_address(flash_mem_address),
+                .audio_data(long_audio_data)
+                );
+wire [7:0] audio_data = long_audio_data[7:0];
+//=======================================================================================================================
 
-
-
-assign flash_mem_write = 1’b0;
-assign flash_mem_writedata = 32’b0;
-assign flash_mem_burstcount = 6’b000001;
 //=======================================================================================================================
 
 
@@ -238,6 +257,13 @@ wire    [22:0]  flash_mem_address;
 wire    [31:0]  flash_mem_readdata;
 wire            flash_mem_readdatavalid;
 wire    [3:0]   flash_mem_byteenable;
+
+//=======================================================================================================================
+// ADDED BYB YIYI
+// assign flash_mem_write = 1'b0;
+// assign flash_mem_writedata = 32'b0;
+// assign flash_mem_burstcount = 6'b000001;
+//=======================================================================================================================
 
 
 flash flash_inst (
@@ -259,7 +285,8 @@ assign Sample_Clk_Signal = Clock_1KHz;
 
 //Audio Generation Signal
 //Note that the audio needs signed data - so convert 1 bit to 8 bits signed
-wire [7:0] audio_data = {~Sample_Clk_Signal,{7{Sample_Clk_Signal}}}; //generate signed sample audio signal
+// wire [7:0] audio_data = {~Sample_Clk_Signal,{7{Sample_Clk_Signal}}}; 
+//generate signed sample audio signal
 
 
 

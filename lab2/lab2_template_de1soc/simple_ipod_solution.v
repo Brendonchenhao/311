@@ -224,6 +224,8 @@ wire Sample_Clk_Signal;
 //
 //
 
+
+
 assign flash_mem_write = 1’b0;
 assign flash_mem_writedata = 32’b0;
 assign flash_mem_burstcount = 6’b000001;
@@ -608,8 +610,6 @@ assign Seven_Seg_Data[5] = regd_actual_7seg_output[23:20];
 assign actual_7seg_output =  scope_sampling_clock_count;
 
 
-
-
 //=======================================================================================================================
 //
 //   Audio controller code - do not touch
@@ -624,7 +624,6 @@ interface_actual_audio_data_right
   .outdata(actual_audio_data_right),
   .inclk(CLK_50M),
   .outclk(audio_right_clock));
-   
    
 to_slow_clk_interface 
 interface_actual_audio_data_left

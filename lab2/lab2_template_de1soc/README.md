@@ -55,11 +55,11 @@ FSM - try to understand how it works. To understand the interface with the keybo
 # Part 4: Start to write code, after designing
 
 ## 1. interface with the flash memory
-create a 
+It's already written here: [gotocode](./simple_ipod_solution.v#227)
 ## 2. design a FSM
 
 ### 2.1. FSM for reading flash
-
+make it glicth free. Use the output included covention. 
 ### 2.2 FSM for control. 
 
 

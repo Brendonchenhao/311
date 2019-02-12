@@ -102,6 +102,8 @@ always_ff @(posedge CLK_50M) begin
             address <= 23'b0;
             controller_state <= READ;
         end
+        // the read state can wait on whether the pause or the read_pulse, 
+        // which is used to sync the 50M clock and 22K clock. 
         READ: 
         begin
             if (pause) audio_sample <= 16'b0;
@@ -139,6 +141,7 @@ always_ff @(posedge CLK_50M) begin
             // restart will set the address to different location
             if (restart) 
             begin
+                // if we restart forward, we want to start at the 0, else just start at the end
                 if (direction)address <= 23'b0;
                 else address <= 23'h7FFFF;
             end

@@ -263,50 +263,6 @@ simple_play sp(
 wire [7:0] audio_data = $signed(long_audio_data);
 
 
-
-//TESTING=======================================================================================================================
-// enum {INIT, WAIT_READ, WAIT} state;
-// logic [31:0] START_ADDR = 32'b0;
-// logic [31:0] address;
-// logic offset, read;
-// logic [15:0] audio;
-// assign flash_mem_address = address;
-// assign flash_mem_read = read;
-
-// always_ff @(posedge CLK_22K, negedge rst_n) begin
-//     if (~rst_n)
-//         begin
-//             address <= START_ADDR;
-//             offset <= 1'b0;
-//             state <= INIT;
-//         end
-//     else begin
-//         case(state)
-//             INIT: 
-//                 begin
-//                     // we restart right before reading
-//                     read <= 1'b1;
-//                     if (~flash_mem_waitrequest) state <= WAIT_READ;
-//                 end
-//             WAIT_READ:
-//                 begin
-//                     if (flash_mem_readdatavalid)
-//                         begin
-//                             read <= 1'b0;
-//                             state <= INIT;
-//                             audio <= offset ? flash_mem_readdata[31:16] : flash_mem_readdata[15:0];
-//                             if (offset)address <= address + 1;
-//                             offset <= ~offset;
-//                         end
-//                 end
-//         endcase
-//     end
-// end
-
-// wire[15:0] audio_data = audio;
-//=======================================================================================================================
-
-
 wire            flash_mem_read;
 wire            flash_mem_waitrequest;
 wire    [22:0]  flash_mem_address;
@@ -531,7 +487,7 @@ LCD_Scope_Encapsulated_pacoblaze_wrapper LCD_LED_scope(
 
 wire speed_up_event, speed_down_event;
 
-// //Generate 1 KHz Clock
+//Generate 1 KHz Clock
 // Generate_Arbitrary_Divided_Clk32 
 // Gen_1KHz_clk
 // (
@@ -549,6 +505,7 @@ key0_doublsync
 (.indata(!KEY[0]),
 .outdata(speed_up_raw),
 .clk(CLK_22K),
+// .clk(Clock_1KHz),
 .reset(1'b1));
 
 
@@ -557,14 +514,17 @@ key1_doublsync
 (.indata(!KEY[1]),
 .outdata(speed_down_raw),
 .clk(CLK_22K),
+// .clk(Clock_1KHz),
 .reset(1'b1));
 
 
 parameter num_updown_events_per_sec = 10;
-parameter num_1KHZ_clocks_between_updown_events = 1000/num_updown_events_per_sec;
+// parameter num_1KHZ_clocks_between_updown_events = 1000/num_updown_events_per_sec;
+parameter num_1KHZ_clocks_between_updown_events = 22000/num_updown_events_per_sec;
 
 reg [15:0] updown_counter = 0;
 always @(posedge CLK_22K)
+// always @(posedge Clock_1KHz)
 begin
       if (updown_counter >= num_1KHZ_clocks_between_updown_events)
       begin
@@ -617,7 +577,7 @@ doublesync
 key2_doublsync
 (.indata(!KEY[2]),
 .outdata(speed_reset_event),
-.clk(CLK_22K),
+.clk(CLK_50M),
 .reset(1'b1));
 
 parameter oscilloscope_speed_step = 100;
@@ -626,7 +586,7 @@ wire [15:0] speed_control_val;
 speed_reg_control 
 speed_reg_control_inst
 (
-.clk(CLK_22K),
+.clk(CLK_50M),
 .up_event(speed_up_event),
 .down_event(speed_down_event),
 .reset_event(speed_reset_event),
@@ -634,8 +594,8 @@ speed_reg_control_inst
 );
 
 logic [15:0] scope_sampling_clock_count;
-parameter [15:0] default_scope_sampling_clock_count = 12499; //2KHz
-
+// parameter [15:0] default_scope_sampling_clock_count = 12499; //2KHz
+parameter [15:0] default_scope_sampling_clock_count = 1136; //11KHz
 
 always @ (posedge CLK_50M) 
 begin

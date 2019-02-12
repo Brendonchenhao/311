@@ -68,14 +68,14 @@ begin
     kbd_data_ready = 1'b0;
     #100;
 
-// start again
+    // start again
     kbd_data_ready = 1'b1;
     kbd_received_ascii_code = 8'h45;
     #10;
     kbd_data_ready = 1'b0;
     #100;
 
-// run it backwards
+    // run it backwards
     kbd_data_ready = 1'b1;
     kbd_received_ascii_code = 8'h42;
     #10;
@@ -83,7 +83,7 @@ begin
     #100;
     // kbd_received_ascii_code = 8'h46;
 
-// restart
+    // restart
     kbd_data_ready = 1'b1;
     kbd_received_ascii_code = 8'h52;
     #10;
@@ -92,9 +92,17 @@ begin
 
     #500;
 
-    // run it backwards
+        // start again
     kbd_data_ready = 1'b1;
-    kbd_received_ascii_code = 8'h42;
+    kbd_received_ascii_code = 8'h45;
+    #10;
+    kbd_data_ready = 1'b0;
+    #400;
+
+
+    // run it forwards
+    kbd_data_ready = 1'b1;
+    kbd_received_ascii_code = 8'h46;
     #10;
     kbd_data_ready = 1'b0;
     #700;

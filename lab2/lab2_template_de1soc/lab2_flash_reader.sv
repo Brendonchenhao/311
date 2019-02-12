@@ -37,7 +37,6 @@ always_ff @(posedge clk, negedge rst_n) begin
                         begin
                             read <= 1'b1;
                             if (~flash_mem_waitrequest) state <= WAIT_READ;
-                            // state <= WAIT_READ;
                         end
                 end
             WAIT_READ:
@@ -47,20 +46,11 @@ always_ff @(posedge clk, negedge rst_n) begin
                             read <= 1'b0;
                             state <= INIT;
                             audio <= offset ? flash_mem_readdata[31:16] : flash_mem_readdata[15:0];
-                            if (direction & offset)address <= address + 1;
-                            else if (~direction & ~offset) address <= address - 1; // TODO: need more checking!
+                            if (direction & offset)address <= address + 23'b1;
+                            else if (~direction & ~offset) address <= address - 23'b1; 
                             offset <= ~offset;
                         end
                 end
-            // WAIT:
-            //     begin
-            //         // increment address based on direction. 0 is backward, 1 is forward
-            //         if (direction & offset)address <= address + 1;
-            //         else if (~direction & ~offset) address <= address - 1; // TODO: need more checking!
-            //         offset <= ~offset;
-            //         state <= INIT;
-            //     end
-            // default:
         endcase
     end
 end

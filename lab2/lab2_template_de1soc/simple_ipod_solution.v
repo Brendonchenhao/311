@@ -226,13 +226,8 @@ wire Sample_Clk_Signal;
 //Generate the oscilloscope clock
 wire [15:0] long_audio_data;
 wire CLK_22K;
-Generate_Arbitrary_Divided_Clk32 
-Generate_CLK_22K(
-.inclk(CLK_50M),
-.outclk(CLK_22K),
-.outclk_Not(),
-.div_clk_count(1136),
-.Reset(1'h1));
+
+clock_divider cd(CLK_50M, CLK_22K, 28'd2272);
 
 wire rst_n = rst_pipe[2];
 reg [2:0] rst_pipe = 3'b0;
@@ -240,7 +235,8 @@ always_ff @(posedge CLK_50M) begin
     rst_pipe <= {rst_pipe, 1'b1};
 end
 
-lab2_controller lc(.CLK_50M(CLK_50M),
+lab2_controller lc(
+                .CLK_50M(CLK_50M),
                 .CLK_22K(CLK_22K),
                 .rst_n(rst_n),
                 .kbd_data_ready(kbd_data_ready),
@@ -255,7 +251,15 @@ wire [15:0] audio_data = long_audio_data;
 
 
 
-// //TESTING=======================================================================================================================
+//TESTING=======================================================================================================================
+// enum {INIT, WAIT_READ, WAIT} state;
+// logic [31:0] START_ADDR = 32'b0;
+// logic [31:0] address;
+// logic offset, read;
+// logic [15:0] audio;
+// assign flash_mem_address = address;
+// assign flash_mem_read = read;
+
 // always_ff @(posedge CLK_22K, negedge rst_n) begin
 //     if (~rst_n)
 //         begin
@@ -268,9 +272,8 @@ wire [15:0] audio_data = long_audio_data;
 //             INIT: 
 //                 begin
 //                     // we restart right before reading
-//                             read <= 1'b1;
-//                             if (~flash_mem_waitrequest) state <= WAIT_READ;
-//                             // state <= WAIT_READ;
+//                     read <= 1'b1;
+//                     if (~flash_mem_waitrequest) state <= WAIT_READ;
 //                 end
 //             WAIT_READ:
 //                 begin
@@ -279,14 +282,15 @@ wire [15:0] audio_data = long_audio_data;
 //                             read <= 1'b0;
 //                             state <= INIT;
 //                             audio <= offset ? flash_mem_readdata[31:16] : flash_mem_readdata[15:0];
-//                             if (direction & offset)address <= address + 1;
-//                             else if (~direction & ~offset) address <= address - 1; 
+//                             if (offset)address <= address + 1;
 //                             offset <= ~offset;
 //                         end
 //                 end
 //         endcase
 //     end
 // end
+
+// wire[15:0] audio_data = audio;
 //=======================================================================================================================
 
 

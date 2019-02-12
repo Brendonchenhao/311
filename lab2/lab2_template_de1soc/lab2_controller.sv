@@ -63,7 +63,7 @@ always_ff @(posedge CLK_50M, negedge rst_n) begin
                         8'h46: state <= FORWARD;
                         8'h52: state <= RESTART;
                         // default?
-                        
+
                     endcase
                 end
             end
@@ -101,8 +101,8 @@ always_ff @(posedge CLK_50M, negedge rst_n) begin
     endcase
 end  
 
-reg edge_restart;
-edge_detetor ed(restart, CLK_22K, edge_restart);
+// reg edge_restart;
+// edge_detetor ed(restart, CLK_22K, edge_restart);
 
 //TODO: Maybe need edge detectors for the 4 control signals?
 lab2_flash_reader fr(
@@ -110,7 +110,7 @@ lab2_flash_reader fr(
     .rst_n(rst_n),
     .pause(pause),
     .direction(direction),
-    .restart(edge_restart),
+    .restart(restart),
     .flash_mem_address(flash_mem_address),
     .flash_mem_read(flash_mem_read),
     .flash_mem_readdata(flash_mem_readdata),
@@ -119,22 +119,22 @@ lab2_flash_reader fr(
     .sample(audio_data));
 endmodule
 
-module edge_detetor(input async_sig, input outclk, output out_sync_sig);
-    wire grounded_reset = 1'b0;
-    wire vcc = 1'b1;
-    wire fdc_top_1_out, fdc_top_2_out, fdc_top_3_out, fdc_1_out;
-    ff fdc_top_1(vcc, fdc_top_1_out, async_sig, fdc_1_out);
-    ff fdc_top_2(fdc_top_1_out, fdc_top_2_out, outclk, grounded_reset);
-    ff fdc_top_3(fdc_top_2_out, fdc_top_3_out, outclk, grounded_reset);
-    ff fdc_1(fdc_top_3_out, fdc_1_out, outclk, grounded_reset);
-    assign out_sync_sig = fdc_top_3_out;
-endmodule
+// module edge_detetor(input async_sig, input outclk, output out_sync_sig);
+//     wire grounded_reset = 1'b0;
+//     wire vcc = 1'b1;
+//     wire fdc_top_1_out, fdc_top_2_out, fdc_top_3_out, fdc_1_out;
+//     ff fdc_top_1(vcc, fdc_top_1_out, async_sig, fdc_1_out);
+//     ff fdc_top_2(fdc_top_1_out, fdc_top_2_out, outclk, grounded_reset);
+//     ff fdc_top_3(fdc_top_2_out, fdc_top_3_out, outclk, grounded_reset);
+//     ff fdc_1(fdc_top_3_out, fdc_1_out, outclk, grounded_reset);
+//     assign out_sync_sig = fdc_top_3_out;
+// endmodule
 
 
-module ff(input D, output logic Q, input clk, input rst);
-    always_ff @(posedge clk or posedge rst)
-    begin
-        if (rst) Q <= 1'b0;
-        else Q <= D;
-    end
-endmodule
+// module ff(input D, output logic Q, input clk, input rst);
+//     always_ff @(posedge clk or posedge rst)
+//     begin
+//         if (rst) Q <= 1'b0;
+//         else Q <= D;
+//     end
+// endmodule

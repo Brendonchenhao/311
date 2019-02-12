@@ -24,11 +24,11 @@ wire  [15:0]  audio_data                   ;
 
 initial
 begin
-    forever #(PERIOD/6)  CLK_50M=~CLK_50M;
+    forever #(PERIOD)  CLK_22K=~CLK_22K;
 end
 initial
 begin
-    forever #(PERIOD)  CLK_22K=~CLK_22K;
+    forever #(PERIOD/6)  CLK_50M=~CLK_50M;
 end
 
 lab2_controller  u_lab2_controller (
@@ -48,6 +48,7 @@ lab2_controller  u_lab2_controller (
 
 initial
 begin
+    
     rst_n = 1'b0;
     #10;
     rst_n = 1'b1;
@@ -55,7 +56,9 @@ begin
 // test what happen if there is no command. By default pause is 0, so we should be playing. 
     #30;
     flash_mem_readdatavalid = 1'b1;
-    flash_mem_readdata = {16'b1, 16'b10};
+    flash_mem_readdata = {16'b10, 16'b1};
+    assert (u_lab2_controller.fr.address == 23'b0);
+    // nothing should happen during, since it started paused
     #100;
 
 // start
@@ -63,7 +66,7 @@ begin
     kbd_received_ascii_code = 8'h45;
     #10;
     kbd_data_ready = 1'b0;
-    #100;
+    #500;
 
 // stop
     kbd_data_ready = 1'b1;

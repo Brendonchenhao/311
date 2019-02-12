@@ -517,16 +517,16 @@ key1_doublsync
 // .clk(Clock_1KHz),
 .reset(1'b1));
 
-
+// parameter num_updown_events_per_sec = 10;
 parameter num_updown_events_per_sec = 10;
 // parameter num_1KHZ_clocks_between_updown_events = 1000/num_updown_events_per_sec;
-parameter num_1KHZ_clocks_between_updown_events = 22000/num_updown_events_per_sec;
+parameter num_22KHZ_clocks_between_updown_events = 22000/num_updown_events_per_sec;
 
 reg [15:0] updown_counter = 0;
 always @(posedge CLK_22K)
 // always @(posedge Clock_1KHz)
 begin
-      if (updown_counter >= num_1KHZ_clocks_between_updown_events)
+      if (updown_counter >= num_22KHZ_clocks_between_updown_events)
       begin
             if (speed_up_raw)
             begin

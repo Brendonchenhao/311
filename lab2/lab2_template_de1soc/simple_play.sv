@@ -147,10 +147,15 @@ always_ff @(posedge CLK_50M) begin
             end
             else
             begin
-                if(direction && (address != 23'h7FFFF)) address <= address + 23'b1;
-                else if(~direction && (address != 23'b0)) address <= address - 23'b1;
-                else if (direction) address <= 23'b0;
-                else address <= 23'h7FFFF;
+                // We want to stop when reached the end of address. 
+                if(direction && (address == 23'h7FFFF)) address <= 23'h7FFFF;
+                else if(~direction && (address == 23'b0)) address <= 23'b0;
+                else if (direction) address <= address + 23'b1;
+                else address <= address - 23'b1;
+                // if(direction && (address != 23'h7FFFF)) address <= address + 23'b1;
+                // else if(~direction && (address != 23'b0)) address <= address - 23'b1;
+                // else if (direction) address <= 23'b0;
+                // else address <= 23'h7FFFF;
             end
             // we reiterate the the reading state, and wait for read pulse
             controller_state <= READ;

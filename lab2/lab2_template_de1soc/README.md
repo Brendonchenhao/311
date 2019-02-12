@@ -31,10 +31,11 @@ Lab 2: Simple iPod
    - Describsion of the interface of Altera Generic QUad SPI Controller
   [![Image from Gyazo](https://i.gyazo.com/5765ff904bc5c8ecba6d1367d69f9390.png)](https://gyazo.com/5765ff904bc5c8ecba6d1367d69f9390)
    - Specification on the signals
-  [![Image from Gyazo](https://i.gyazo.com/7963adba22f50d6f8e9f80204f5e9ed1.png)](https://gyazo.com/7963adba22f50d6f8e9f80204f5e9ed1)
-   - Examples of Piplining reading. [![Image from Gyazo](https://i.gyazo.com/6031d1efa08256ae7c91185590bd7fe9.png)](https://gyazo.com/6031d1efa08256ae7c91185590bd7fe9)
+   - [![Image from Gyazo](https://i.gyazo.com/7963adba22f50d6f8e9f80204f5e9ed1.png)](https://gyazo.com/7963adba22f50d6f8e9f80204f5e9ed1)
+   - Examples of Piplining reading. 
+   - [![Image from Gyazo](https://i.gyazo.com/6031d1efa08256ae7c91185590bd7fe9.png)](https://gyazo.com/6031d1efa08256ae7c91185590bd7fe9)
    - 
-5. 
+5. FSM: ![fsm1](../fsm1.JPG) ![fsm2](../fsm2.JPG)
 
 
 # Part 2: Look at the solution file to understand what to be done

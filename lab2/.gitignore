@@ -1,4 +1,5 @@
-!*.pdf
+
+# !*.pdf
 /lab2_template_de1soc/db
 /lab2_template_de1soc/incremental_db
 /lab2_template_de1soc/*

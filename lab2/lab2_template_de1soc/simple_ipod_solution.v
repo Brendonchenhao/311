@@ -231,11 +231,18 @@ Generate_CLK_22K(
 .inclk(CLK_50M),
 .outclk(CLK_22K),
 .outclk_Not(),
-.div_clk_count(2273),
+.div_clk_count(1136),
 .Reset(1'h1));
+
+wire rst_n = rst_pipe[2];
+reg [2:0] rst_pipe = 3'b0;
+always_ff @(posedge CLK_50M) begin
+    rst_pipe <= {rst_pipe, 1'b1};
+end
+
 lab2_controller lc(.CLK_50M(CLK_50M),
                 .CLK_22K(CLK_22K),
-                .rst_n(1'b1),
+                .rst_n(rst_n),
                 .kbd_data_ready(kbd_data_ready),
                 .kbd_received_ascii_code(kbd_received_ascii_code),
                 .flash_mem_readdatavalid(flash_mem_readdatavalid),
@@ -243,11 +250,43 @@ lab2_controller lc(.CLK_50M(CLK_50M),
                 .flash_mem_waitrequest(flash_mem_waitrequest),
                 .flash_mem_read(flash_mem_read),
                 .flash_mem_address(flash_mem_address),
-                .audio_data(long_audio_data)
-                );
-wire [7:0] audio_data = long_audio_data[7:0];
-//=======================================================================================================================
+                .audio_data(long_audio_data));
+wire [15:0] audio_data = long_audio_data;
 
+
+
+// //TESTING=======================================================================================================================
+// always_ff @(posedge CLK_22K, negedge rst_n) begin
+//     if (~rst_n)
+//         begin
+//             address <= START_ADDR;
+//             offset <= 1'b0;
+//             state <= INIT;
+//         end
+//     else begin
+//         case(state)
+//             INIT: 
+//                 begin
+//                     // we restart right before reading
+//                             read <= 1'b1;
+//                             if (~flash_mem_waitrequest) state <= WAIT_READ;
+//                             // state <= WAIT_READ;
+//                 end
+//             WAIT_READ:
+//                 begin
+//                     if (flash_mem_readdatavalid)
+//                         begin
+//                             read <= 1'b0;
+//                             state <= INIT;
+//                             audio <= offset ? flash_mem_readdata[31:16] : flash_mem_readdata[15:0];
+//                             if (direction & offset)address <= address + 1;
+//                             else if (~direction & ~offset) address <= address - 1; 
+//                             offset <= ~offset;
+//                         end
+//                 end
+//         endcase
+//     end
+// end
 //=======================================================================================================================
 
 
@@ -381,11 +420,10 @@ wire user_scope_enable_trigger_path0, user_scope_enable_trigger_path1;
 wire scope_enable_source = SW[8];
 wire choose_LCD_or_SCOPE = SW[9];
 
-
 doublesync user_scope_enable_sync1(.indata(scope_enable_source),
                   .outdata(user_scope_enable),
                   .clk(CLK_50M),
-                  .reset(1'b1)); 
+                  .reset(rst_n)); 
 
 //Generate the oscilloscope clock
 Generate_Arbitrary_Divided_Clk32 

@@ -235,10 +235,9 @@ always_ff @(posedge CLK_50M) begin
     rst_pipe <= {rst_pipe, 1'b1};
 end
 
-lab2_controller lc(
+simple_play sp(
                 .CLK_50M(CLK_50M),
                 .CLK_22K(CLK_22K),
-                .rst_n(rst_n),
                 .kbd_data_ready(kbd_data_ready),
                 .kbd_received_ascii_code(kbd_received_ascii_code),
                 .flash_mem_readdatavalid(flash_mem_readdatavalid),
@@ -247,7 +246,21 @@ lab2_controller lc(
                 .flash_mem_read(flash_mem_read),
                 .flash_mem_address(flash_mem_address),
                 .audio_data(long_audio_data));
-wire [15:0] audio_data = long_audio_data;
+
+// lab2_controller lc(
+//                 .CLK_50M(CLK_50M),
+//                 .CLK_22K(CLK_22K),
+//                 .rst_n(rst_n),
+//                 .kbd_data_ready(kbd_data_ready),
+//                 .kbd_received_ascii_code(kbd_received_ascii_code),
+//                 .flash_mem_readdatavalid(flash_mem_readdatavalid),
+//                 .flash_mem_readdata(flash_mem_readdata),
+//                 .flash_mem_waitrequest(flash_mem_waitrequest),
+//                 .flash_mem_read(flash_mem_read),
+//                 .flash_mem_address(flash_mem_address),
+//                 .audio_data(long_audio_data));
+
+wire [7:0] audio_data = $signed(long_audio_data);
 
 
 

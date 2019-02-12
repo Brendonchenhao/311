@@ -531,15 +531,15 @@ LCD_Scope_Encapsulated_pacoblaze_wrapper LCD_LED_scope(
 
 wire speed_up_event, speed_down_event;
 
-//Generate 1 KHz Clock
-Generate_Arbitrary_Divided_Clk32 
-Gen_1KHz_clk
-(
-.inclk(CLK_50M),
-.outclk(Clock_1KHz),
-.outclk_Not(),
-.div_clk_count(32'h61A6), //change this if necessary to suit your module
-.Reset(1'h1)); 
+// //Generate 1 KHz Clock
+// Generate_Arbitrary_Divided_Clk32 
+// Gen_1KHz_clk
+// (
+// .inclk(CLK_50M),
+// .outclk(Clock_1KHz),
+// .outclk_Not(),
+// .div_clk_count(32'h61A6), //change this if necessary to suit your module
+// .Reset(1'h1)); 
 
 wire speed_up_raw;
 wire speed_down_raw;
@@ -548,7 +548,7 @@ doublesync
 key0_doublsync
 (.indata(!KEY[0]),
 .outdata(speed_up_raw),
-.clk(Clock_1KHz),
+.clk(CLK_22K),
 .reset(1'b1));
 
 
@@ -556,7 +556,7 @@ doublesync
 key1_doublsync
 (.indata(!KEY[1]),
 .outdata(speed_down_raw),
-.clk(Clock_1KHz),
+.clk(CLK_22K),
 .reset(1'b1));
 
 
@@ -564,7 +564,7 @@ parameter num_updown_events_per_sec = 10;
 parameter num_1KHZ_clocks_between_updown_events = 1000/num_updown_events_per_sec;
 
 reg [15:0] updown_counter = 0;
-always @(posedge Clock_1KHz)
+always @(posedge CLK_22K)
 begin
       if (updown_counter >= num_1KHZ_clocks_between_updown_events)
       begin
@@ -617,7 +617,7 @@ doublesync
 key2_doublsync
 (.indata(!KEY[2]),
 .outdata(speed_reset_event),
-.clk(CLK_50M),
+.clk(CLK_22K),
 .reset(1'b1));
 
 parameter oscilloscope_speed_step = 100;
@@ -626,7 +626,7 @@ wire [15:0] speed_control_val;
 speed_reg_control 
 speed_reg_control_inst
 (
-.clk(CLK_50M),
+.clk(CLK_22K),
 .up_event(speed_up_event),
 .down_event(speed_down_event),
 .reset_event(speed_reset_event),

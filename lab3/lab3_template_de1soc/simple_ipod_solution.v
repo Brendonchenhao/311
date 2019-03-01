@@ -125,7 +125,8 @@ output                      DRAM_WE_N;
 logic CLK_50M;
 logic  [7:0] LED;
 assign CLK_50M =  CLOCK_50;
-assign LEDR[7:0] = LED[7:0];
+assign LEDR[9:2] = LED[7:0];
+// assign LEDR[7:0] = LED[7:0];
 
 //Character definitions
 

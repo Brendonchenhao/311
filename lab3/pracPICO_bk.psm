@@ -575,6 +575,9 @@ disp_line2:         LOAD s5, character_t
                     ; The interrupt is used purely to provide a 1 second heart beat binary counter pattern
                     ; on the 8 LEDs.
                     ;
+                    ;*********************************************
+                    ; Change the LED every second
+                    ;*********************************************
                ISR: STORE s0, ISR_preserve_s0           ;preserve register
                     FETCH s0, LED_pattern               ;read current counter value
                     ADD s0, 01                          ;increment counter

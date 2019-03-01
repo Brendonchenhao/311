@@ -247,19 +247,6 @@ simple_play sp(
                 .flash_mem_address(flash_mem_address),
                 .audio_data(long_audio_data));
 
-// lab2_controller lc(
-//                 .CLK_50M(CLK_50M),
-//                 .CLK_22K(CLK_22K),
-//                 .rst_n(rst_n),
-//                 .kbd_data_ready(kbd_data_ready),
-//                 .kbd_received_ascii_code(kbd_received_ascii_code),
-//                 .flash_mem_readdatavalid(flash_mem_readdatavalid),
-//                 .flash_mem_readdata(flash_mem_readdata),
-//                 .flash_mem_waitrequest(flash_mem_waitrequest),
-//                 .flash_mem_read(flash_mem_read),
-//                 .flash_mem_address(flash_mem_address),
-//                 .audio_data(long_audio_data));
-
 wire [7:0] audio_data = $signed(long_audio_data);
 
 
@@ -269,6 +256,44 @@ wire    [22:0]  flash_mem_address;
 wire    [31:0]  flash_mem_readdata;
 wire            flash_mem_readdatavalid;
 wire    [3:0]   flash_mem_byteenable;
+
+//=======================================================================================================================
+// LAB 3 =======================================================================================================================
+// picoblaze_template
+// #(
+// .clk_freq_in_hz(25000000)
+// ) 
+// picoblaze_template_inst(
+//                         .led(LED[7:0]),
+//                       .lcd_d(LCD_DATA),
+//                       .lcd_rs(LCD_RS),
+//                       .lcd_rw(LCD_RW),
+//                       .lcd_e(LCD_EN),
+//                         .clk(CLK_25),
+//                 .input_data({4'h0,sync_SW[3:0]})
+//                  );
+
+
+wire [3:0] sync_SW;
+reg CLK_25;
+
+always @(posedge CLK_50M)
+begin
+        CLK_25 <= !CLK_25;
+end
+
+picoblaze_template
+#(
+.clk_freq_in_hz(25000000)
+) 
+picoblaze_template_inst(
+    .led(LED[7:0]),
+    .clk(CLK_25),
+    .input_data({4'h0,sync_SW[3:0]})
+);
+//=======================================================================================================================
+
+
 
 //=======================================================================================================================
 // ADDED BYB YIYI

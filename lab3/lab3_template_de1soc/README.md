@@ -3,10 +3,32 @@ Lab 3
 # Instruction
 Read the Picoblaze activity
 ## Task 1
-toggle LEDR[0] every second
+> toggle LEDR[0] every second
+
+### Notes
+currently, the LED control is 
+```.text
+;
+;**************************************************************************************
+; Interrupt Service Routine (ISR)
+;**************************************************************************************
+;
+; The interrupt is used purely to provide a 1 second heart beat binary counter pattern
+; on the 8 LEDs.
+ISR: STORE s0, ISR_preserve_s0           ;preserve register
+    FETCH s0, LED_pattern               ;read current counter value
+    ADD s0, 01                          ;increment counter
+    STORE s0, LED_pattern               ;store new counter value
+    OUTPUT s0, LED_port                 ;display counter value on LEDs
+    FETCH s0, ISR_preserve_s0           ;restore register
+    RETURNI ENABLE
+```
+This block will store the LED counter value and display the port value to LED_port. If we want to 
+
+
 
 ## Task 2
-The interrupt routine will be activated each time a new
+> The interrupt routine will be activated each time a new
 value is read from the Flash memory. Each value is a
 sound sample, each sample has its "intensity", or
 absolute value. The interrupt will accumulate (=sum) 256
@@ -17,6 +39,11 @@ essentially an averaging filter operation, i.e. we are
 averaging every 256 absolute values of samples. Division
 by 256, because that is the power of 2, can be done very
 simply by discarding log2(256) bits from the sum.
+
+### Notes
+1. get the sound sample from somewhere
+2. save the value to a register (the value is absolute)
+3. divide the sum by 256, or log2(256)
 
 ## Task 3
 Every time we do this division by 256, the PicoBlaze
@@ -36,4 +63,4 @@ After each averaged value is output to the appropriate
 LEDs, the accumulator is set to 0 to prepare to average
 the next 256 values, and so on.
 
-## Comments
+## Comment

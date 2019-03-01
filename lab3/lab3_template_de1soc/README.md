@@ -28,18 +28,6 @@ This block will store the LED counter value and display the port value to LED_po
 
 
 ## Task 2
-> The interrupt routine will be activated each time a new
-value is read from the Flash memory. Each value is a
-sound sample, each sample has its "intensity", or
-absolute value. The interrupt will accumulate (=sum) 256
-of these absolute values (a value each time the
-interrupt is called), and the interrupt routine will
-divide this sum by 256 every 256-th interrupt. This is
-essentially an averaging filter operation, i.e. we are
-averaging every 256 absolute values of samples. Division
-by 256, because that is the power of 2, can be done very
-simply by discarding log2(256) bits from the sum.
-
 Go to the [SLIDE](https://drive.google.com/file/d/0By2-dmbuBCMTTXJoazZ1VHA3RkU/view)
 
 [![Image from Gyazo](https://i.gyazo.com/841ca1fb3565fa0aeee9de2ab6d83c2c.png)](https://gyazo.com/841ca1fb3565fa0aeee9de2ab6d83c2c)
@@ -55,10 +43,29 @@ Go to the [SLIDE](https://drive.google.com/file/d/0By2-dmbuBCMTTXJoazZ1VHA3RkU/v
 
 [![Image from Gyazo](https://i.gyazo.com/0425bf1b6aa7bbbe0ea3e48ae5213d52.png)](https://gyazo.com/0425bf1b6aa7bbbe0ea3e48ae5213d52)
 
+> The interrupt routine will be activated each time a new
+value is read from the Flash memory. Each value is a
+sound sample, each sample has its "intensity", or
+absolute value. The interrupt will accumulate (=sum) 256
+of these absolute values (a value each time the
+interrupt is called), and the interrupt routine will
+divide this sum by 256 every 256-th interrupt. This is
+essentially an averaging filter operation, i.e. we are
+averaging every 256 absolute values of samples. Division
+by 256, because that is the power of 2, can be done very
+simply by discarding log2(256) bits from the sum.
+
 ### Notes
-1. get the sound sample from somewhere
-2. save the value to a register (the value is absolute)
-3. divide the sum by 256, or log2(256)
+1. Change the interrupt timer to based on flash memory input
+   1. [delay timer](../pracPICO_task2.psm#398)
+   2. Change the interrupt signal in [interrupt_ack](simple_picobalze.v#101)
+2. 
+3. get the sound sample from somewhere
+   1. We will feed the input data [simple_picoblaze](./simple_ipod_solution.v#L293)
+   2. every cycle the program will pick it up.
+4. 
+5. save the value to a register (the value is absolute)
+6. divide the sum by 256, or log2(256)
 
 ## Task 3
 Every time we do this division by 256, the PicoBlaze

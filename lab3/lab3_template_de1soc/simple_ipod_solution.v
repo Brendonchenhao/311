@@ -283,14 +283,14 @@ begin
         CLK_25 <= !CLK_25;
 end
 
-picoblaze_template
+simple_picoblaze
 #(
 .clk_freq_in_hz(25000000)
 ) 
 picoblaze_template_inst(
     .led(LED[7:0]),
     .clk(CLK_25),
-    .input_data({4'h0,sync_SW[3:0]})
+    .input_data(audio_data)
 );
 //=======================================================================================================================
 

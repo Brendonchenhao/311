@@ -578,8 +578,12 @@ disp_line2:         LOAD s5, character_t
                     ;*********************************************
                     ; Change the LED every second
                     ;*********************************************
-                ISR: LOAD s0, 01
+                ISR: STORE s0, ISR_preserve_s0           ;preserve register
+                    FETCH s0, LED_pattern               ;read current counter value
+                    OR s0, s0                          ;increment counter
+                    STORE s0, LED_pattern               ;store new counter value
                     OUTPUT s0, LED_port                 ;display counter value on LEDs
+                    FETCH s0, ISR_preserve_s0           ;restore register
                     RETURNI ENABLE
                     ;
                     ;

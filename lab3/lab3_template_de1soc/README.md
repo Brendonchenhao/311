@@ -69,6 +69,16 @@ simply by discarding log2(256) bits from the sum.
    2. At the moment, saving it to the register. 
    3. It's essentially two loops. 
    4. divide the sum by 256, or log2(256)
+#### pesudo code
+```python
+if i < 256:
+    input_data = data_in
+    sum += input_data
+    i ++
+else
+    output = sum / 256;
+    i = 0
+```
 
 ## Task 3
 Every time we do this division by 256, the PicoBlaze

@@ -35,13 +35,15 @@ Go to the [SLIDE](https://drive.google.com/file/d/0By2-dmbuBCMTTXJoazZ1VHA3RkU/v
 [![Image from Gyazo](https://i.gyazo.com/a0b46d4a4ddf8af9243e8d836d89609c.png)](https://gyazo.com/a0b46d4a4ddf8af9243e8d836d89609c)
 
 [![Image from Gyazo](https://i.gyazo.com/d08323bf514577ff4b99af24c8dc4c7a.png)](https://gyazo.com/d08323bf514577ff4b99af24c8dc4c7a)
-
+> the relations between in_port, out_port and port_id
 
 [![Image from Gyazo](https://i.gyazo.com/53403ad860d113757d6c8d4c54eec3c4.png)](https://gyazo.com/53403ad860d113757d6c8d4c54eec3c4)
 
 [![Image from Gyazo](https://i.gyazo.com/b0699ba2c12414d1281cba27e6a5a1b4.png)](https://gyazo.com/b0699ba2c12414d1281cba27e6a5a1b4)
 
 [![Image from Gyazo](https://i.gyazo.com/0425bf1b6aa7bbbe0ea3e48ae5213d52.png)](https://gyazo.com/0425bf1b6aa7bbbe0ea3e48ae5213d52)
+
+[![Image from Gyazo](https://i.gyazo.com/c0b97ee53bc3b2a32d2545b8a9aa1ede.png)](https://gyazo.com/c0b97ee53bc3b2a32d2545b8a9aa1ede)
 
 > The interrupt routine will be activated each time a new
 value is read from the Flash memory. Each value is a
@@ -59,13 +61,14 @@ simply by discarding log2(256) bits from the sum.
 1. Change the interrupt timer to based on flash memory input
    1. [delay timer](../pracPICO_task2.psm#398)
    2. Change the interrupt signal in [interrupt_ack](simple_picobalze.v#101)
-2. 
 3. get the sound sample from somewhere
    1. We will feed the input data [simple_picoblaze](./simple_ipod_solution.v#L293)
    2. every cycle the program will pick it up.
-4. 
-5. save the value to a register (the value is absolute)
-6. divide the sum by 256, or log2(256)
+4. Working on the assembly code
+   1. save the value to a register (the value is absolute)
+   2. At the moment, saving it to the register. 
+   3. It's essentially two loops. 
+   4. divide the sum by 256, or log2(256)
 
 ## Task 3
 Every time we do this division by 256, the PicoBlaze

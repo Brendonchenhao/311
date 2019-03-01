@@ -40,11 +40,20 @@ averaging every 256 absolute values of samples. Division
 by 256, because that is the power of 2, can be done very
 simply by discarding log2(256) bits from the sum.
 
+Go to the [SLIDE](https://drive.google.com/file/d/0By2-dmbuBCMTTXJoazZ1VHA3RkU/view)
+
 [![Image from Gyazo](https://i.gyazo.com/841ca1fb3565fa0aeee9de2ab6d83c2c.png)](https://gyazo.com/841ca1fb3565fa0aeee9de2ab6d83c2c)
 
 [![Image from Gyazo](https://i.gyazo.com/a0b46d4a4ddf8af9243e8d836d89609c.png)](https://gyazo.com/a0b46d4a4ddf8af9243e8d836d89609c)
 
 [![Image from Gyazo](https://i.gyazo.com/d08323bf514577ff4b99af24c8dc4c7a.png)](https://gyazo.com/d08323bf514577ff4b99af24c8dc4c7a)
+
+
+[![Image from Gyazo](https://i.gyazo.com/53403ad860d113757d6c8d4c54eec3c4.png)](https://gyazo.com/53403ad860d113757d6c8d4c54eec3c4)
+
+[![Image from Gyazo](https://i.gyazo.com/b0699ba2c12414d1281cba27e6a5a1b4.png)](https://gyazo.com/b0699ba2c12414d1281cba27e6a5a1b4)
+
+[![Image from Gyazo](https://i.gyazo.com/0425bf1b6aa7bbbe0ea3e48ae5213d52.png)](https://gyazo.com/0425bf1b6aa7bbbe0ea3e48ae5213d52)
 
 ### Notes
 1. get the sound sample from somewhere

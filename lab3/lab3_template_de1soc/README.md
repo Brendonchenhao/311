@@ -40,6 +40,12 @@ averaging every 256 absolute values of samples. Division
 by 256, because that is the power of 2, can be done very
 simply by discarding log2(256) bits from the sum.
 
+[![Image from Gyazo](https://i.gyazo.com/841ca1fb3565fa0aeee9de2ab6d83c2c.png)](https://gyazo.com/841ca1fb3565fa0aeee9de2ab6d83c2c)
+
+[![Image from Gyazo](https://i.gyazo.com/a0b46d4a4ddf8af9243e8d836d89609c.png)](https://gyazo.com/a0b46d4a4ddf8af9243e8d836d89609c)
+
+[![Image from Gyazo](https://i.gyazo.com/d08323bf514577ff4b99af24c8dc4c7a.png)](https://gyazo.com/d08323bf514577ff4b99af24c8dc4c7a)
+
 ### Notes
 1. get the sound sample from somewhere
 2. save the value to a register (the value is absolute)

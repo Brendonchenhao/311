@@ -16,7 +16,7 @@ reg [2:0] state;
 always @(posedge Clock) begin
 	if(reset) begin
 		state <= IDLE;
-		CLK_FREQ <= 32'h2FA; //Default frequency 33000 KHz
+		CLK_FREQ <= 28'd2272; //Default frequency 22 KHz
 	end	
 	case(state)
 		IDLE: //Keep default if no KEY's are pressed
@@ -39,7 +39,7 @@ always @(posedge Clock) begin
 		end
 		default:
 		begin
-			CLK_FREQ <= 32'h2FA;
+			CLK_FREQ <= 28'd2272;
 			state <= IDLE;
 		end	
 	endcase

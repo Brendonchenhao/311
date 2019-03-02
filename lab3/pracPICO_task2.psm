@@ -196,7 +196,8 @@
                     OUTPUT s0, LED_0_port
                     STORE s0, LED_pattern
 
-                    CALL delay_1s;
+                    CALL delay_1s
+                    JUMP main_program
 			
     check_switches: INPUT s0 ,DATA_IN_PORT     		;get status of switches
 			  COMPARE s0, 00    			;test to see if switches are 0
@@ -611,7 +612,6 @@ disp_line2:         LOAD s5, character_t
                     LOAD s0, 00 ; reset the whole RAM
                     LOAD s1, 00 ; reset the whole RAM
                     LOAD s2, 00 ; reset the whole RAM
-                    JUMP POP
                 POP:
                     STORE s0, COUNTER
                     STORE s1, SUM

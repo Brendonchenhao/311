@@ -228,22 +228,22 @@ doublesync syncsw0(.indata(SW[0]),
                           .clk(CLK_25),
                           .reset(1'b1));                          
                         
-// PicoBlaze Circuit                        
-assign LCD_ON   = 1'b1;
+// // PicoBlaze Circuit                        
+// assign LCD_ON   = 1'b1;
 
-picoblaze_template
-#(
-.clk_freq_in_hz(25000000)
-) 
-picoblaze_template_inst(
-                        .led(LED[7:0]),
-                      .lcd_d(LCD_DATA),
-                      .lcd_rs(LCD_RS),
-                      .lcd_rw(LCD_RW),
-                      .lcd_e(LCD_EN),
-                        .clk(CLK_25),
-                .input_data({4'h0,sync_SW[3:0]})
-                 );
+// picoblaze_template
+// #(
+// .clk_freq_in_hz(25000000)
+// ) 
+// picoblaze_template_inst(
+//                         .led(LED[7:0]),
+//                       .lcd_d(LCD_DATA),
+//                       .lcd_rs(LCD_RS),
+//                       .lcd_rw(LCD_RW),
+//                       .lcd_e(LCD_EN),
+//                         .clk(CLK_25),
+//                 .input_data({4'h0,sync_SW[3:0]})
+//                  );
                                                         
             
 endmodule

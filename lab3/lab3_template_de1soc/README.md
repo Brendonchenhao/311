@@ -70,6 +70,7 @@ simply by discarding log2(256) bits from the sum.
    3. It's essentially two loops. 
    4. divide the sum by 256, or log2(256)
 #### pesudo code
+> 
 ```python
 if i < 256: // i is s0
     input_data = data_in // input_data is s3
@@ -89,10 +90,12 @@ FETCH s0, ISR_preserve_s0
 FETCH s1, ISR_preserve_s1
 FETCH s2, ISR_preserve_s2
 FETCH s3, ISR_preserve_s3
+
+5. 
                     
 
 ## Task 3
-Every time we do this division by 256, the PicoBlaze
+> Every time we do this division by 256, the PicoBlaze
 interrupt routine should output the average value to
 the LEDG[7:0]. (If you have a DE1-SoC, use LEDR[9:2])
 Note that you have to "fill" the LEDs from left to
@@ -105,7 +108,7 @@ XXXXXX00 (where "X" is on and "0" is off). As always,
 look at what the solution does if you have any doubts.
 
 ## Task 4
-After each averaged value is output to the appropriate
+> After each averaged value is output to the appropriate
 LEDs, the accumulator is set to 0 to prepare to average
 the next 256 values, and so on.
 

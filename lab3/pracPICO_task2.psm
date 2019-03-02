@@ -186,11 +186,13 @@
                     ;
                     ; Display welcome message for design
                     ;
-      main_program:          ;preserve register
-                    FETCH s0, LED_pattern               ;read current counter value
-                    OR s0, s0                         ;increment counter
-                    STORE s0, LED_pattern               ;store new counter value
-                    OUTPUT s0, LED_port                 ;display counter value on LEDs
+      main_program: LOAD s5, 10                         ;Line 1 position 0
+                    CALL LCD_cursor
+                    CALL disp_line1	        ;Display a message
+			        LOAD s5, 20                         ;Line 2 position 0
+                    CALL LCD_cursor
+                    CALL disp_line2	        ;Display a message
+
                     CALL delay_1s;
 			
     check_switches: INPUT s0,DATA_IN_PORT     		;get status of switches

@@ -283,9 +283,11 @@ begin
         CLK_25 <= !CLK_25;
 end
 
-simple_picoblaze
+picoblaze_template
 #(
-.clk_freq_in_hz(1136) // form 22k clock
+.clk_freq_in_hz(1136) 
+// form 22k clock. Since we want to have 50M / 2272 = 22k, and each counter
+// accounts for half of the frequency, the counter is set to 2272/2 = 1132
 ) 
 picoblaze_template_inst(
     .led(LED[7:0]),

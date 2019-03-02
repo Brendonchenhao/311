@@ -7,9 +7,13 @@ picoblaze_template
 parameter clk_freq_in_hz = 25000000
 ) (
 output reg[7:0] led,
+inout [7:0] lcd_d,
+output reg lcd_rs,
+output lcd_rw,
+output reg lcd_e,
 input clk,
-input [7:0] input_data);
-
+input [7:0] input_data
+);
 
   
 //--

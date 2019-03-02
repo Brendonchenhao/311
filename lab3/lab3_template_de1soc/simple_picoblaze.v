@@ -7,6 +7,7 @@ picoblaze_template
 parameter clk_freq_in_hz = 25000000
 ) (
 output reg[7:0] led,
+output reg led_0,
 inout [7:0] lcd_d,
 output reg lcd_rs,
 output lcd_rw,
@@ -152,6 +153,9 @@ end
         if (write_strobe & port_id[6])  //clock enable
           lcd_output_data <= out_port;
       
+// ADDED BY YIYI
+        if (write_strobe & port_id[0])
+          led_0 <= out_port;
 //        -- LCD controls at address 20 hex.
         if (write_strobe & port_id[5]) //clock enable
 	  begin

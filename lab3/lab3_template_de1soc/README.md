@@ -64,7 +64,7 @@ simply by discarding log2(256) bits from the sum.
 3. get the sound sample from somewhere
    1. We will feed the input data [simple_picoblaze](./simple_ipod_solution.v#L293)
    2. every cycle the program will pick it up.
-4. Working on the assembly code
+4. **Working on the assembly code logic**
    1. save the value to a register (the value is absolute)
    2. At the moment, saving it to the register. 
    3. It's essentially two loops. 
@@ -82,16 +82,58 @@ else
     output = sum / 256; 
     i = 0
 ```
+```text
 STORE s0, ISR_preserve_s0
 STORE s1, ISR_preserve_s1
 STORE s2, ISR_preserve_s2
 STORE s3, ISR_preserve_s3 ; get a register for storing data
-FETCH s0, ISR_preserve_s0
+>FETCH s0, ISR_preserve_s0
 FETCH s1, ISR_preserve_s1
 FETCH s2, ISR_preserve_s2
 FETCH s3, ISR_preserve_s3
+```
 
-5. 
+The reason for this is cause divided by 256 = right shift 8 bits, which in the case
+of using 2 8 bits register is just ignore the "sum" one and take the "avg" one as the output.
+
+5. **Set the port for LED_0 seperately** \
+We want to display the 1 blinking LED at the same time as the other 8, therefore we will use another port, LED_0_port, which has port_id of 01 -> 00000001 or port_id[0]. 
+6. **Toggle the interrupt signal** \
+The interrupt signal was triggered every 1 HZ
+``` v
+// Note that because we are using clock enable we DO NOT need to synchronize with clk
+
+  always @ (posedge clk)
+  begin
+      //--divide 50MHz by 50,000,000 to form 1Hz pulses
+      if (int_count==(clk_freq_in_hz-1)) //clock enable
+		begin
+         int_count <= 0;
+         event_1hz <= 1;
+      end else
+		begin
+         int_count <= int_count + 1;
+         event_1hz <= 0;
+      end
+ end
+
+ always @ (posedge clk or posedge interrupt_ack)  //FF with clock "clk" and reset "interrupt_ack"
+ begin
+      if (interrupt_ack) //if we get reset, reset interrupt in order to wait for next clock.
+            interrupt <= 0;
+      else
+		begin 
+		      if (event_1hz)   //clock enable
+      		      interrupt <= 1;
+          		else
+		            interrupt <= interrupt;
+      end
+ end
+```
+7. **make the input_data absolute from simple_ipod** \
+It's a simple change to make sure signed data from audio is changed to abolute. Use a if > 0 else check. 
+8. **Integration check**
+9. 
                     
 
 ## Task 3

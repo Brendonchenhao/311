@@ -14,7 +14,8 @@
                     ;
                     ;
                     CONSTANT LED_port, 80               ;8 simple LEDs. Is an OUTPUT port.
-			        CONSTANT DATA_IN_PORT, 00	        ;input data port. this is an INPUT port.
+			        CONSTANT LED_0_port, 01
+                    CONSTANT DATA_IN_PORT, 00	        ;input data port. this is an INPUT port.
 
                  
                     ;
@@ -186,13 +187,11 @@
                     ;
                     ; Display welcome message for design
                     ;
-      main_program: LOAD s5, 10                         ;Line 1 position 0
-                    CALL LCD_cursor
-                    CALL disp_line1	        ;Display a message
-			        LOAD s5, 20                         ;Line 2 position 0
-                    CALL LCD_cursor
-                    CALL disp_line2	        ;Display a message
-
+      main_program: FETCH s0, LED_pattern
+                    XOR s0, s0
+                    STORE s0, LED_pattern
+                    OUTPUT s0, LED_0_port
+                    
                     CALL delay_1s;
 			
     check_switches: INPUT s0,DATA_IN_PORT     		;get status of switches
@@ -605,10 +604,9 @@ disp_line2:         LOAD s5, character_t
                     JUMP POP
              RET_SUM:       
                     OUTPUT s2, LED_port
+                    LOAD s1, 00 ; reset the whole RAM
+                    LOAD s2, 00 ; reset the whole RAM
                     LOAD s3, 00 ; reset the whole RAM
-                    STORE s3, SUM
-                    STORE s3, COUNTER
-                    STORE s3, AVG
                     JUMP POP
                 POP:
                     STORE s0, COUNTER

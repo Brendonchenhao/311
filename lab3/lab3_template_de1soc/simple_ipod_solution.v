@@ -123,10 +123,12 @@ output                      DRAM_WE_N;
 //=======================================================
 // Input and output declarations
 logic CLK_50M;
-logic  [7:0] LED;
+logic  [7:0] LED_8;
+logic LED_0;
 assign CLK_50M =  CLOCK_50;
-assign LEDR[9:2] = LED[7:0];
-// assign LEDR[7:0] = LED[7:0];
+assign LEDR[9:2] = LED_8;
+assign LEDR[0] = LED_0;
+
 
 //Character definitions
 
@@ -219,11 +221,9 @@ parameter character_exclaim=8'h21;          //'!'
 wire Clock_1KHz, Clock_1Hz;
 wire Sample_Clk_Signal;
 
-//=======================================================================================================================
-//
-// Insert your code for Lab2 here!
-//
-//
+//====================================//
+// LAB2
+//====================================//
 //Generate the oscilloscope clock
 wire [15:0] long_audio_data;
 wire CLK_22K;
@@ -258,22 +258,9 @@ wire    [31:0]  flash_mem_readdata;
 wire            flash_mem_readdatavalid;
 wire    [3:0]   flash_mem_byteenable;
 
-//=======================================================================================================================
-// LAB 3 =======================================================================================================================
-// picoblaze_template
-// #(
-// .clk_freq_in_hz(25000000)
-// ) 
-// picoblaze_template_inst(
-//                         .led(LED[7:0]),
-//                       .lcd_d(LCD_DATA),
-//                       .lcd_rs(LCD_RS),
-//                       .lcd_rw(LCD_RW),
-//                       .lcd_e(LCD_EN),
-//                         .clk(CLK_25),
-//                 .input_data({4'h0,sync_SW[3:0]})
-//                  );
-
+//====================================//
+// LAB 3 =============================//
+//====================================//
 
 wire [3:0] sync_SW;
 reg CLK_25;
@@ -283,6 +270,15 @@ begin
         CLK_25 <= !CLK_25;
 end
 
+// signed data to absolute data
+logic [7:0] absolute_audio_data;
+always_comb begin
+    if (audio_data > 0)
+        absolute_audio_data = audio_data;
+    else
+        absolute_audio_data = -1 * audio_data;
+end
+
 picoblaze_template
 #(
 .clk_freq_in_hz(1136) 
@@ -290,9 +286,10 @@ picoblaze_template
 // accounts for half of the frequency, the counter is set to 2272/2 = 1132
 ) 
 picoblaze_template_inst(
-    .led(LED[7:0]),
+    .led(LED_8),
+    .led_0(LED_0),
     .clk(CLK_25),
-    .input_data(audio_data)
+    .input_data(absolute_audio_data)
 );
 //=======================================================================================================================
 

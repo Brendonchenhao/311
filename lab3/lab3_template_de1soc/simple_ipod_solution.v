@@ -265,6 +265,8 @@ g_s_speed_controller speed_ctrl(
 logic [31:0] clock_division_number;    
 wire CLK_22K;
 clock_divider cd(CLK_50M, CLK_22K, clock_division_number);
+// clock_divider cd(CLK_50M, CLK_22K, 28'd2272);
+
 //====================================//
 // LAB 3 =============================//
 //====================================//

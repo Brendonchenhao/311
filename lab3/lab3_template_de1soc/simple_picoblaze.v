@@ -13,8 +13,7 @@ output reg lcd_rs,
 output lcd_rw,
 output reg lcd_e,
 input clk,
-input [7:0] input_data,
-input interrupt_trigger
+input [7:0] input_data
 );
 
   

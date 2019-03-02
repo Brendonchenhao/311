@@ -192,7 +192,7 @@
                     ; Display welcome message for design
                     ;
       main_program: FETCH s0, LED_pattern
-                    XOR s0, s0
+                    XOR s0, 01
                     OUTPUT s0, LED_0_port
                     STORE s0, LED_pattern
 

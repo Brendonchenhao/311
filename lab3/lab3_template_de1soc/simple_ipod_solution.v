@@ -285,7 +285,7 @@ end
 
 simple_picoblaze
 #(
-.clk_freq_in_hz(25000000)
+.clk_freq_in_hz(1136) // form 22k clock
 ) 
 picoblaze_template_inst(
     .led(LED[7:0]),

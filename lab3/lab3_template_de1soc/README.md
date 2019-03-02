@@ -71,14 +71,25 @@ simply by discarding log2(256) bits from the sum.
    4. divide the sum by 256, or log2(256)
 #### pesudo code
 ```python
-if i < 256:
-    input_data = data_in
-    sum += input_data
+if i < 256: // i is s0
+    input_data = data_in // input_data is s3
+    sum += input_data // sum is s1 
+    if carry:
+        s2 ++
     i ++
 else
-    output = sum / 256;
+    output = sum / 256; 
     i = 0
 ```
+STORE s0, ISR_preserve_s0
+STORE s1, ISR_preserve_s1
+STORE s2, ISR_preserve_s2
+STORE s3, ISR_preserve_s3 ; get a register for storing data
+FETCH s0, ISR_preserve_s0
+FETCH s1, ISR_preserve_s1
+FETCH s2, ISR_preserve_s2
+FETCH s3, ISR_preserve_s3
+                    
 
 ## Task 3
 Every time we do this division by 256, the PicoBlaze

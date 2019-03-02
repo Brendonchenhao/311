@@ -58,7 +58,9 @@
                     CONSTANT ISR_preserve_s3, 03        ;Preserve s3 contents during ISR
                     ;
                     CONSTANT LED_pattern, 04            ;remember state of LEDs (8-bit counter in this case)
-                   
+                    CONSTANT COUNTER, 05
+                    CONSTANT SUM, 06
+                    CONSTANT AVG, 07
                     ;
                     ;**************************************************************************************
                     ; Useful data constants
@@ -184,13 +186,11 @@
                     ;
                     ; Display welcome message for design
                     ;
-      main_program: LOAD s5, 10                         ;Line 1 position 0
-                    CALL LCD_cursor
-                    CALL disp_line1	        ;Display a message
-			  LOAD s5, 20                         ;Line 2 position 0
-                    CALL LCD_cursor
-                    CALL disp_line2	        ;Display a message
-
+      main_program:          ;preserve register
+                    FETCH s0, LED_pattern               ;read current counter value
+                    OR s0, s0                         ;increment counter
+                    STORE s0, LED_pattern               ;store new counter value
+                    OUTPUT s0, LED_port                 ;display counter value on LEDs
                     CALL delay_1s;
 			
     check_switches: INPUT s0,DATA_IN_PORT     		;get status of switches
@@ -580,12 +580,42 @@ disp_line2:         LOAD s5, character_t
                     ;*********************************************
                ISR: 
                     ; loop
-                    STORE s0, ISR_preserve_s0           ;preserve register
-                    FETCH s0, LED_pattern               ;read current counter value
-                    OR s0, s0                          ;increment counter
-                    STORE s0, LED_pattern               ;store new counter value
-                    OUTPUT s0, LED_port                 ;display counter value on LEDs
-                    FETCH s0, ISR_preserve_s0           ;restore register
+                    ; s0: counter i
+                    ; s1: sum
+                    ; s2: average
+            PUSH:   ; we use ISR_preserve_register as stack
+                    STORE s0, ISR_preserve_s0
+                    STORE s1, ISR_preserve_s1
+                    STORE s2, ISR_preserve_s2
+                    STORE s3, ISR_preserve_s3 
+                    
+                    ;get the saved data from RAM
+                    FETCH s0, COUNTER
+                    FETCH s1, SUM
+                    FETCH s2, AVG
+                    
+                    ADD s0, 01; increment the counter
+                    JUMP C, RET_SUM
+                    INPUT s3, DATA_IN_PORT; read input data from port into s3
+                    ADD s1, s3 ; add input into sum
+                    JUMP NC, POP
+                    ADD s2, 01
+                    JUMP POP
+             RET_SUM:       
+                    OUTPUT s2, LED_port
+                    LOAD s3, 00 ; reset the whole RAM
+                    STORE s3, SUM
+                    STORE s3, COUNTER
+                    STORE s3, AVG
+                    JUMP POP
+                POP:
+                    STORE s0, COUNTER
+                    STORE s1, SUM
+                    STORE s2, AVG
+                    FETCH s0, ISR_preserve_s0
+                    FETCH s1, ISR_preserve_s1
+                    FETCH s2, ISR_preserve_s2
+                    FETCH s3, ISR_preserve_s3
                     RETURNI ENABLE
                     ;
                     ;

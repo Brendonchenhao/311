@@ -277,13 +277,13 @@ reg CLK_25;
 
 always @(posedge CLK_50M)
 begin
-        CLK_25 <= !CLK_25;
+    CLK_25 <= !CLK_25;
 end
 
-
+// we are only using the first half of the data, so take the absolute value of that
 logic [7:0] abs_readdata;
 
-always_comb
+always_comb begin
   if (long_audio_data[15] == 1'b1) begin
     abs_readdata = ~long_audio_data[15:8] + 1'b1;
   end
@@ -291,6 +291,8 @@ always_comb
     abs_readdata = long_audio_data[15:8];
   end
 end
+// We want to display value event when there is no reading (most likely paused)
+// therefore we will save the data into register to preserve the value
 logic [7:0] stable_abs_readdata;
 always_ff @(posedge CLK_50M) begin
     if (abs_readdata != 0)
@@ -636,7 +638,7 @@ speed_reg_control_inst
 
 logic [15:0] scope_sampling_clock_count;
 // parameter [15:0] default_scope_sampling_clock_count = 12499; //2KHz
-parameter [15:0] default_scope_sampling_clock_count = clock_division_number >> 1; //11KHz
+parameter [15:0] default_scope_sampling_clock_count = 1136; //11KHz
 
 always @ (posedge CLK_50M) 
 begin

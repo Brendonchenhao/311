@@ -138,13 +138,6 @@ It's a simple change to make sure signed data from audio is changed to abolute. 
    2. The main program will flip (XOR) LED_pattern (which is only used for LED_0), then output it. 
    3. Interrupt is triggered by the [interrupt_trigger_routing](./simple_picoblaze.v#79) It will trigger interrupt every "50M count", 
       1. **Option 2**: Manual use a register to check if the audio_data was changed. If it is, trigger the interrupt to update the message. 
-   4. 
-|problem   |solution   | version |
-|---|---|---|
-|The LED are all light up, so the avg register is too big?| Try to change the register solution to Jacky's, use only the first 16 bits||
-|LED blink too slow.|call abck to the main loop?| |
-|The music is WAY too fast|change the default speed in the speed controller| |
-|The LED display stops when the music stops|instead of direcly use the audio_data, use it when it's not 0. | |
 
                     
 
@@ -161,9 +154,19 @@ is bit #5 (where bit #0 is the LSB), the LEDs should be
 XXXXXX00 (where "X" is on and "0" is off). As always,
 look at what the solution does if you have any doubts.
 
+### debugging task 3 functionality
+|problem   |solution   | version | Comments |
+|---|---|---|---|
+|The LED are all light up, so the avg register is too big?| Try to change the register solution to Jacky's, use only the first 16 bits||it works|
+|LED blink too slow.|call back to the main loop?| | solved|
+|The music is WAY too fast|change the default speed in the speed controller| | It works| 
+|The LED display stops when the music stops|instead of direcly use the audio_data, use it when it's not 0. |0106 am| | 
+|Speed up's display is really wrong| |0106, not fixed| |
 ## Task 4
 > After each averaged value is output to the appropriate
 LEDs, the accumulator is set to 0 to prepare to average
 the next 256 values, and so on.
 
 ## Comment
+
+Total hours: 15 hours. 

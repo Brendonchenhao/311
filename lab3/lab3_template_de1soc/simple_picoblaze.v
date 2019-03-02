@@ -155,14 +155,14 @@ end
           lcd_output_data <= out_port;
       
 // ADDED BY YIYI
-        if (write_strobe & port_id[0])
-          led_0 <= out_port;
+        if (write_strobe & port_id[0]) 
+          led_0 <= out_port[0]; // this is the output port update for the LED flip. 
 //        -- LCD controls at address 20 hex.
         if (write_strobe & port_id[5]) //clock enable
-	  begin
-             lcd_rs <= out_port[2];
-             lcd_rw_control <= out_port[1];
-             lcd_e <= out_port[0];
+        begin
+          lcd_rs <= out_port[2];
+          lcd_rw_control <= out_port[1];
+          lcd_e <= out_port[0];
         end
 
   end

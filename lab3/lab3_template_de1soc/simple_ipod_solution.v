@@ -278,14 +278,25 @@ always_comb begin
     else
         absolute_audio_data = -1 * audio_data;
 end
-// // added an interrupt trigger from the readdatavalid
-// // learnt from Jacky, the reason is to instead of sync to clk 22kHz, which 
-// logic interrupt_trigger;
-// pos_edge_det interrupt_trigger_sync(
-//     .sig(flash_mem_readdatavalid),
-//     .clk(CLK_25),
-//     .pe(interrupt_trigger)
-// );
+// added an interrupt trigger from the readdatavalid
+// learnt from Jacky, the reason is to instead of sync to clk 22kHz, which 
+// logic [7:0] old_audio_data;
+
+
+// always_ff @(posedge CLK_50M) begin
+//     if (old_audio_data !== audio_data)
+//         interrupt_trigger = 1'b1;
+//     else
+//         interrupt_trigger = 1'b0;
+//     old_audio_data <= audio_data;
+// end
+logic interrupt_trigger;
+// use Edge detector 
+pos_edge_det interrupt_trigger_sync(
+    .sig(flash_mem_readdatavalid),
+    .clk(CLK_25),
+    .pe(interrupt_trigger)
+);
 
 picoblaze_template
 #(
@@ -297,7 +308,7 @@ picoblaze_template_inst(
     .led(LED_8),
     .led_0(LED_0),
     .clk(CLK_25),
-    .input_data(absolute_audio_data),
+    .input_data($unsigned(absolute_audio_data)),
     .interrupt_trigger(interrupt_trigger)
 );
 //=======================================================================================================================

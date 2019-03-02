@@ -99,7 +99,8 @@ of using 2 8 bits register is just ignore the "sum" one and take the "avg" one a
 5. **Set the port for LED_0 seperately** \
 We want to display the 1 blinking LED at the same time as the other 8, therefore we will use another port, LED_0_port, which has port_id of 01 -> 00000001 or port_id[0]. 
 6. **Toggle the interrupt signal** \
-The interrupt signal was triggered every 1 HZ
+   1. The interrupt signal was triggered every 1 HZ
+   2. **Updated** we wil not use clk interrupt anymore, since the clk are not perfectly synced anyway. Use a data change sync trigger is much more relible. 
 ``` v
 // Note that because we are using clock enable we DO NOT need to synchronize with clk
 
@@ -135,7 +136,8 @@ It's a simple change to make sure signed data from audio is changed to abolute. 
 8. **Integration check**
    1. Initialized all the ports in [cold_start](../pracPICO_task2.psm#175)
    2. The main program will flip (XOR) LED_pattern (which is only used for LED_0), then output it. 
-   3. Interrupt is triggered by the [interrupt_trigger_routing](./simple_picoblaze.v #79) It will trigger interrupt every "50M count", 
+   3. Interrupt is triggered by the [interrupt_trigger_routing](./simple_picoblaze.v#79) It will trigger interrupt every "50M count", 
+      1. **Option 2**: Manual use a register to check if the audio_data was changed. If it is, trigger the interrupt to update the message. 
    4. 
 9.  
                     

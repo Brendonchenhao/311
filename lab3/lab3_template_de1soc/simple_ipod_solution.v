@@ -262,7 +262,7 @@ wire    [3:0]   flash_mem_byteenable;
 // LAB 3 =============================//
 //====================================//
 
-wire [3:0] sync_SW;
+// Create the "Fake 25 clk that the picoblaze uses. Hnestly this is pointless
 reg CLK_25;
 
 always @(posedge CLK_50M)
@@ -279,9 +279,16 @@ always_comb begin
         absolute_audio_data = -1 * audio_data;
 end
 
+logic interrupt_trigger;
+pos_edge_det interrupt_trigger_sync(
+    .sig(flash_mem_readdatavalid),
+    .clk(CLK_25),
+    .pe(interrupt_trigger)
+);
+
 picoblaze_template
 #(
-.clk_freq_in_hz(1136) 
+.clk_freq_in_hz(25000000) 
 // form 22k clock. Since we want to have 50M / 2272 = 22k, and each counter
 // accounts for half of the frequency, the counter is set to 2272/2 = 1132
 ) 
@@ -289,7 +296,8 @@ picoblaze_template_inst(
     .led(LED_8),
     .led_0(LED_0),
     .clk(CLK_25),
-    .input_data(absolute_audio_data)
+    .input_data(absolute_audio_data),
+    .interrupt_trigger(interrupt_trigger)
 );
 //=======================================================================================================================
 

@@ -13,7 +13,8 @@ output reg lcd_rs,
 output lcd_rw,
 output reg lcd_e,
 input clk,
-input [7:0] input_data
+input [7:0] input_data,
+input interrupt_trigger
 );
 
   
@@ -89,19 +90,19 @@ pacoblaze3 led_8seg_kcpsm
 
 // Note that because we are using clock enable we DO NOT need to synchronize with clk
 
-  always @ (posedge clk)
-  begin
-      //--divide 50MHz by 50,000,000 to form 1Hz pulses
-      if (int_count==(clk_freq_in_hz-1)) //clock enable
-		begin
-         int_count <= 0;
-         event_1hz <= 1;
-      end else
-		begin
-         int_count <= int_count + 1;
-         event_1hz <= 0;
-      end
- end
+//   always @ (posedge clk)
+//   begin
+//       //--divide 50MHz by 50,000,000 to form 1Hz pulses
+//       if (int_count==(clk_freq_in_hz-1)) //clock enable
+// 		begin
+//          int_count <= 0;
+//          event_1hz <= 1;
+//       end else
+// 		begin
+//          int_count <= int_count + 1;
+//          event_1hz <= 0;
+//       end
+//  end
 
  always @ (posedge clk or posedge interrupt_ack)  //FF with clock "clk" and reset "interrupt_ack"
  begin
@@ -109,7 +110,7 @@ pacoblaze3 led_8seg_kcpsm
             interrupt <= 0;
       else
 		begin 
-		      if (event_1hz)   //clock enable
+		      if (interrupt_trigger)   //clock enable
       		      interrupt <= 1;
           		else
 		            interrupt <= interrupt;

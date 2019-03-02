@@ -60,7 +60,7 @@ simply by discarding log2(256) bits from the sum.
 ### Notes
 1. Change the interrupt timer to based on flash memory input
    1. [delay timer](../pracPICO_task2.psm#398)
-   2. Change the interrupt signal in [interrupt_ack](simple_picobalze.v#101)
+   2. Change the interrupt signal in [interrupt_ack](simple_picoblaze.v#101)
 3. get the sound sample from somewhere
    1. We will feed the input data [simple_picoblaze](./simple_ipod_solution.v#L293)
    2. every cycle the program will pick it up.
@@ -133,7 +133,11 @@ The interrupt signal was triggered every 1 HZ
 7. **make the input_data absolute from simple_ipod** \
 It's a simple change to make sure signed data from audio is changed to abolute. Use a if > 0 else check. 
 8. **Integration check**
-9. 
+   1. Initialized all the ports in [cold_start](../pracPICO_task2.psm#175)
+   2. The main program will flip (XOR) LED_pattern (which is only used for LED_0), then output it. 
+   3. Interrupt is triggered by the [interrupt_trigger_routing](./simple_picoblaze.v #79) It will trigger interrupt every "50M count", 
+   4. 
+9.  
                     
 
 ## Task 3

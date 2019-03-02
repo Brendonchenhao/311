@@ -197,7 +197,7 @@
 
                     CALL delay_1s;
 			
-    check_switches: INPUT s0,DATA_IN_PORT     		;get status of switches
+    check_switches: INPUT s0 ,DATA_IN_PORT     		;get status of switches
 			  COMPARE s0, 00    			;test to see if switches are 0
 			  JUMP Z, just_clear_the_display 	;if the switches are 0, then just clear the display
 		
@@ -607,9 +607,9 @@ disp_line2:         LOAD s5, character_t
                     JUMP POP
              RET_SUM:       
                     OUTPUT s2, LED_8_port
+                    LOAD s0, 00 ; reset the whole RAM
                     LOAD s1, 00 ; reset the whole RAM
                     LOAD s2, 00 ; reset the whole RAM
-                    LOAD s3, 00 ; reset the whole RAM
                     JUMP POP
                 POP:
                     STORE s0, COUNTER

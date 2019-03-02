@@ -144,7 +144,6 @@ end
 //   
   always @ (posedge clk)
   begin
-
         //LED is port 80 hex 
         if (write_strobe & (port_id == 8'h80))  //clock enable 
           casex(out_port)

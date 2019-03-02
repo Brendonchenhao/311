@@ -256,7 +256,7 @@ wire    [31:0]  flash_mem_readdata;
 wire            flash_mem_readdatavalid;
 wire    [3:0]   flash_mem_byteenable;
 
-g_s_speed_controller speed_ctrl(
+speed_ctrl g_s_speed_controller(
 	.Clock(CLK_50M), 
     .reset(1'b1),
     .speed_up(speed_up_event), 
@@ -357,8 +357,6 @@ assign Sample_Clk_Signal = Clock_1KHz;
 //Note that the audio needs signed data - so convert 1 bit to 8 bits signed
 // wire [7:0] audio_data = {~Sample_Clk_Signal,{7{Sample_Clk_Signal}}}; 
 //generate signed sample audio signal
-
-
 
 //======================================================================================
 // 

@@ -88,7 +88,6 @@ pacoblaze3 led_8seg_kcpsm
 
 
 // Note that because we are using clock enable we DO NOT need to synchronize with clk
-
   always @ (posedge clk)
   begin
       //--divide 50MHz by 50,000,000 to form 1Hz pulses
@@ -102,6 +101,7 @@ pacoblaze3 led_8seg_kcpsm
          event_1hz <= 0;
       end
  end
+
 
  always @ (posedge clk or posedge interrupt_ack)  //FF with clock "clk" and reset "interrupt_ack"
  begin

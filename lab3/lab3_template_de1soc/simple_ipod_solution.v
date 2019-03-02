@@ -245,7 +245,7 @@ simple_play sp(
                 .flash_mem_read(flash_mem_read),
                 .flash_mem_address(flash_mem_address),
                 .audio_data(long_audio_data));
-                
+
 wire [7:0] audio_data = $signed(long_audio_data);
 
 
@@ -262,6 +262,7 @@ speed_ctrl g_s_speed_controller(
     .speed_up(speed_up_event), 
     .speed_down(speed_down_event), 
     .CLK_FREQ(clock_division_number));
+
 logic [31:0] clock_division_number;    
 wire CLK_22K;
 clock_divider cd(CLK_50M, CLK_22K, clock_division_number);
@@ -279,50 +280,34 @@ begin
         CLK_25 <= !CLK_25;
 end
 
-// signed data to absolute data
-logic [7:0] absolute_audio_data;
-always_comb begin
-    if (audio_data > 0)
-        absolute_audio_data = audio_data;
-    else
-        absolute_audio_data = -1 * audio_data;
+
+logic [7:0] abs_readdata;
+
+always_comb
+  if (long_audio_data[15] == 1'b1) begin
+    abs_readdata = ~long_audio_data[15:8] + 1'b1;
+  end
+  else begin
+    abs_readdata = long_audio_data[15:8];
+  end
 end
-// added an interrupt trigger from the readdatavalid
-// learnt from Jacky, the reason is to instead of sync to clk 22kHz, which 
-// logic [7:0] old_audio_data;
-
-
-// always_ff @(posedge CLK_50M) begin
-//     if (old_audio_data !== audio_data)
-//         interrupt_trigger = 1'b1;
-//     else
-//         interrupt_trigger = 1'b0;
-//     old_audio_data <= audio_data;
-// end
-// logic interrupt_trigger;
-// // use Edge detector 
-// module doublesync(.indata(CLK_22K),
-// 				  .outdata(),
-// 				  .clk(CLK_25),
-// 				  .reset(1'b1));
-// pos_edge_det interrupt_trigger_sync(
-//     .sig(flash_mem_readdatavalid),
-//     .clk(CLK_25),
-//     .pe(interrupt_trigger)
-// );
+logic [7:0] stable_abs_readdata;
+always_ff @(posedge CLK_50M) begin
+    if (abs_readdata != 0)
+        stable_abs_readdata <= abs_readdata;
+end
 
 picoblaze_template
 #(
 .clk_freq_in_hz(1136) 
 // form 22k clock. Since we want to have 50M / 2272 = 22k, and each counter
-// accounts for half of the frequency, the counter is set to 2272/2 = 1132
+// accounts for half of the frequency, the counter is set to 2272/2 = 1136
 ) 
 picoblaze_template_inst(
     .led(LED_8),
     .led_0(LED_0),
     .clk(CLK_25),
-    .input_data($unsigned(absolute_audio_data))
-    // .interrupt_trigger(interrupt_trigger)
+    .input_data(stable_abs_readdata)
 );
 //=======================================================================================================================
 
@@ -579,8 +564,8 @@ parameter num_updown_events_per_sec = 10;
 parameter num_22KHZ_clocks_between_updown_events = 22000/num_updown_events_per_sec;
 
 reg [15:0] updown_counter = 0;
-always @(posedge CLK_22K)
-// always @(posedge Clock_1KHz)
+// always @(posedge CLK_22K)
+always @(posedge Clock_1KHz)
 begin
       if (updown_counter >= num_22KHZ_clocks_between_updown_events)
       begin
@@ -651,7 +636,7 @@ speed_reg_control_inst
 
 logic [15:0] scope_sampling_clock_count;
 // parameter [15:0] default_scope_sampling_clock_count = 12499; //2KHz
-parameter [15:0] default_scope_sampling_clock_count = 1136; //11KHz
+parameter [15:0] default_scope_sampling_clock_count = clock_division_number >> 1; //11KHz
 
 always @ (posedge CLK_50M) 
 begin

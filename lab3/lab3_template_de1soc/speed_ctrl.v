@@ -16,7 +16,7 @@ reg [2:0] state;
 always @(posedge Clock) begin
 	if(reset) begin
 		state <= IDLE;
-		CLK_FREQ <= 28'd2272; //Default frequency 22 KHz
+		CLK_FREQ <= 32'd2272; //Default frequency 22 KHz
 	end	
 	case(state)
 		IDLE: //Keep default if no KEY's are pressed
@@ -29,17 +29,17 @@ always @(posedge Clock) begin
 				
 		speed_up_state: //Decrements the time period to increase frequency thus increasing sampling rate of addresses
 		begin
-			CLK_FREQ <= CLK_FREQ - 2;
+			CLK_FREQ <= CLK_FREQ - 22;
 			state <= IDLE;
 		end
 		speed_down_state: //Increments the time period to decrease frequency thus decreasing sampling rate of addresses
 		begin
-			CLK_FREQ <= CLK_FREQ + 2;
+			CLK_FREQ <= CLK_FREQ + 22;
 			state <= IDLE;
 		end
 		default:
 		begin
-			CLK_FREQ <= 28'd2272;
+			CLK_FREQ <= 32'd2272;
 			state <= IDLE;
 		end	
 	endcase

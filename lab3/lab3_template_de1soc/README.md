@@ -139,7 +139,13 @@ It's a simple change to make sure signed data from audio is changed to abolute. 
    3. Interrupt is triggered by the [interrupt_trigger_routing](./simple_picoblaze.v#79) It will trigger interrupt every "50M count", 
       1. **Option 2**: Manual use a register to check if the audio_data was changed. If it is, trigger the interrupt to update the message. 
    4. 
-9.  
+|problem   |solution   | version |
+|---|---|---|
+|The LED are all light up, so the avg register is too big?| Try to change the register solution to Jacky's, use only the first 16 bits||
+|LED blink too slow.|call abck to the main loop?| |
+|The music is WAY too fast|change the default speed in the speed controller| |
+|The LED display stops when the music stops|instead of direcly use the audio_data, use it when it's not 0. | |
+
                     
 
 ## Task 3

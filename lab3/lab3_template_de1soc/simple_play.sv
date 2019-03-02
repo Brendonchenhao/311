@@ -86,7 +86,6 @@ always_ff @(posedge CLK_50M) begin
                 state <= KBD_READ;
                 restart <= 1'b1;
                 pause <= 1'b0;
-                // request <= 1'b1;
             end
         default:    state <= INIT;
     endcase
@@ -152,12 +151,10 @@ always_ff @(posedge CLK_50M) begin
                 // else if(~direction && (address == 23'b0)) address <= 23'b0;
 
                 // we dont want to stop when reached the end of address, just keep going. 
-                if (direction) address <= address + 23'b1;
-                else address <= address - 23'b1;
-                // if(direction && (address != 23'h7FFFF)) address <= address + 23'b1;
-                // else if(~direction && (address != 23'b0)) address <= address - 23'b1;
-                // else if (direction) address <= 23'b0;
-                // else address <= 23'h7FFFF;
+                if(direction && (address != 23'h7FFFF)) address <= address + 23'b1;
+                else if(~direction && (address != 23'b0)) address <= address - 23'b1;
+                else if (direction) address <= 23'b0;
+                else address <= 23'h7FFFF;
             end
             // we reiterate the the reading state, and wait for read pulse
             controller_state <= READ;

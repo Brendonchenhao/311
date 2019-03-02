@@ -1,4 +1,8 @@
-module speed_ctrl(Clock, reset,speed_up, speed_down, CLK_FREQ);
+// Author: Gaurika Sohnvi
+// Email: gaurika1311@gmail.com
+// Permission to use granted to Yiyi Yan. 
+module speed_ctrl(
+	Clock, reset,speed_up, speed_down, CLK_FREQ);
 
 input Clock, reset, speed_up, speed_down;
 output [31:0] CLK_FREQ;

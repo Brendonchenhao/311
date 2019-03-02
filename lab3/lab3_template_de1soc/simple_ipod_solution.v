@@ -226,9 +226,7 @@ wire Sample_Clk_Signal;
 //====================================//
 //Generate the oscilloscope clock
 wire [15:0] long_audio_data;
-wire CLK_22K;
 
-clock_divider cd(CLK_50M, CLK_22K, 28'd2272);
 
 wire rst_n = rst_pipe[2];
 reg [2:0] rst_pipe = 3'b0;
@@ -258,6 +256,15 @@ wire    [31:0]  flash_mem_readdata;
 wire            flash_mem_readdatavalid;
 wire    [3:0]   flash_mem_byteenable;
 
+g_s_speed_controller speed_ctrl(
+	.Clock(CLK_50M), 
+    .reset(1'b1),
+    .speed_up(speed_up_event), 
+    .speed_down(speed_down_event), 
+    .CLK_FREQ(clock_division_number));
+logic [31:0] clock_division_number;    
+wire CLK_22K;
+clock_divider cd(CLK_50M, CLK_22K, clock_division_number);
 //====================================//
 // LAB 3 =============================//
 //====================================//

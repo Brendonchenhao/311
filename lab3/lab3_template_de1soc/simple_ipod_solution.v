@@ -278,13 +278,14 @@ always_comb begin
     else
         absolute_audio_data = -1 * audio_data;
 end
-
-logic interrupt_trigger;
-pos_edge_det interrupt_trigger_sync(
-    .sig(flash_mem_readdatavalid),
-    .clk(CLK_25),
-    .pe(interrupt_trigger)
-);
+// // added an interrupt trigger from the readdatavalid
+// // learnt from Jacky, the reason is to instead of sync to clk 22kHz, which 
+// logic interrupt_trigger;
+// pos_edge_det interrupt_trigger_sync(
+//     .sig(flash_mem_readdatavalid),
+//     .clk(CLK_25),
+//     .pe(interrupt_trigger)
+// );
 
 picoblaze_template
 #(

@@ -290,17 +290,21 @@ end
 //         interrupt_trigger = 1'b0;
 //     old_audio_data <= audio_data;
 // end
-logic interrupt_trigger;
-// use Edge detector 
-pos_edge_det interrupt_trigger_sync(
-    .sig(flash_mem_readdatavalid),
-    .clk(CLK_25),
-    .pe(interrupt_trigger)
-);
+// logic interrupt_trigger;
+// // use Edge detector 
+// module doublesync(.indata(CLK_22K),
+// 				  .outdata(),
+// 				  .clk(CLK_25),
+// 				  .reset(1'b1));
+// pos_edge_det interrupt_trigger_sync(
+//     .sig(flash_mem_readdatavalid),
+//     .clk(CLK_25),
+//     .pe(interrupt_trigger)
+// );
 
 picoblaze_template
 #(
-.clk_freq_in_hz(25000000) 
+.clk_freq_in_hz(1136) 
 // form 22k clock. Since we want to have 50M / 2272 = 22k, and each counter
 // accounts for half of the frequency, the counter is set to 2272/2 = 1132
 ) 
@@ -308,8 +312,8 @@ picoblaze_template_inst(
     .led(LED_8),
     .led_0(LED_0),
     .clk(CLK_25),
-    .input_data($unsigned(absolute_audio_data)),
-    .interrupt_trigger(interrupt_trigger)
+    .input_data($unsigned(absolute_audio_data))
+    // .interrupt_trigger(interrupt_trigger)
 );
 //=======================================================================================================================
 

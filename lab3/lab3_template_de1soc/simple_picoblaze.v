@@ -90,19 +90,19 @@ pacoblaze3 led_8seg_kcpsm
 
 // Note that because we are using clock enable we DO NOT need to synchronize with clk
 
-//   always @ (posedge clk)
-//   begin
-//       //--divide 50MHz by 50,000,000 to form 1Hz pulses
-//       if (int_count==(clk_freq_in_hz-1)) //clock enable
-// 		begin
-//          int_count <= 0;
-//          event_1hz <= 1;
-//       end else
-// 		begin
-//          int_count <= int_count + 1;
-//          event_1hz <= 0;
-//       end
-//  end
+  always @ (posedge clk)
+  begin
+      //--divide 50MHz by 50,000,000 to form 1Hz pulses
+      if (int_count==(clk_freq_in_hz-1)) //clock enable
+		begin
+         int_count <= 0;
+         event_1hz <= 1;
+      end else
+		begin
+         int_count <= int_count + 1;
+         event_1hz <= 0;
+      end
+ end
 
  always @ (posedge clk or posedge interrupt_ack)  //FF with clock "clk" and reset "interrupt_ack"
  begin
@@ -110,7 +110,7 @@ pacoblaze3 led_8seg_kcpsm
             interrupt <= 0;
       else
 		begin 
-		      if (interrupt_trigger)   //clock enable
+		      if (event_1hz)   //clock enable
       		      interrupt <= 1;
           		else
 		            interrupt <= interrupt;
@@ -147,15 +147,25 @@ end
   begin
 
         //LED is port 80 hex 
-        if (write_strobe & port_id[7])  //clock enable 
-          led <= out_port;
+        if (write_strobe & (port_id == 8'h80))  //clock enable 
+          casex(out_port)
+            8'b1xxxxxxx: led <= 8'b11111111;
+            8'b01xxxxxx: led <= 8'b11111110;
+            8'b001xxxxx: led <= 8'b11111100;
+            8'b0001xxxx: led <= 8'b11111000;
+            8'b00001xxx: led <= 8'b11110000;
+            8'b000001xx: led <= 8'b11100000;
+            8'b0000001x: led <= 8'b11000000;
+            8'b00000001: led <= 8'b10000000;
+            default:     led <= 8'b00000000;
+          endcase
        
 //        -- 8-bit LCD data output address 40 hex.
         if (write_strobe & port_id[6])  //clock enable
           lcd_output_data <= out_port;
       
 // ADDED BY YIYI
-        if (write_strobe & port_id[0]) 
+        if (write_strobe & (port_id === 8'h1)) 
           led_0 <= out_port[0]; // this is the output port update for the LED flip. 
 //        -- LCD controls at address 20 hex.
         if (write_strobe & port_id[5]) //clock enable

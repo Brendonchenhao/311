@@ -172,8 +172,9 @@
                     ; Initialise the system
                     ;**************************************************************************************
                     ;
-        cold_start: LOAD s0, 00                         ;clear 1 second counter and clear LEDs
-                    STORE s0, LED_pattern
+        cold_start: LOAD s0, 00 
+                    LOAD s1, 01                        ;clear 1 second counter and clear LEDs
+                    STORE s1, LED_pattern
                     OUTPUT s0, LED_8_port
                     OUTPUT s0, LED_0_port
                     STORE s0, COUNTER

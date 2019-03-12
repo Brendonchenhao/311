@@ -15,5 +15,5 @@ Yiyi's 311 Journey
 
 ## Lab4: RC4 Decoder
 
-[README](/lab4/lab4_template_de1soc/README.md)
+[README](/lab4/Lab4_template_de1soc/README.md)
 

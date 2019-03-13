@@ -51,11 +51,20 @@ for k = 0 to message_length-1 { // message_length is 32 in our implementation
 
 ```
 
+### Solution review
+
+| Action |Result   | Comments |
+|---|---|---|
+|   |   | |
+|   |   | |
+|   |   | |
+
+
 ## Task 1: yesterday once more
 
 Build a flash memory loader. 
-> Notes: 
 > secret keys are 3 bytes
+> 
 
 ## Task 2: everyday I am shuffling
 
@@ -83,3 +92,7 @@ parallel debugging.
 | | | | |
 | | | | |
 | | | | |
+
+## Total hours
+
+1 + 

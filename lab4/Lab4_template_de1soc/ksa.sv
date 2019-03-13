@@ -43,11 +43,12 @@ module ksa(input logic clk, input logic rst_n,
 	    				end
     				end
     			WAIT_FOR_I: begin
-    					current_state <= READ_J;
+    					current_state <= READ_J; // the waiting cycle for memory to return data
 					end
     			READ_J: begin
     					j <= new_j; //update j
-    					temp_i <= rddata; //store the value read from S[i]    					
+    					temp_i <= rddata; 
+                        //store the value read from S[i], which is set up at the end of the READ_I 					
     					addr <= new_j; //get S[new_j]
     					wren <= 0;
     					current_state <= SWAP_J;

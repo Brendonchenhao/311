@@ -82,10 +82,10 @@ module arc4(input logic clk, input logic rst_n,
     ksa k(.clk(clk), .rst_n(rst_n), .en(en_ksa), .rdy(rdy_ksa), .key(key), .addr(s_addr_ksa),
           .rddata(s_rddata), .wrdata(s_wrdata_ksa), .wren(s_wren_ksa));
 
-    prga p(.clk(clk), .rst_n(rst_n), .en(en_prga), .rdy(rdy_prga), .key(key),
-            .s_addr(s_addr_prga), .s_rddata(s_rddata), .s_wrdata(s_wrdata_prga), .s_wren(s_wren_prga),
-            .ct_addr(ct_addr), .ct_rddata(ct_rddata),
-            .pt_addr(pt_addr), .pt_rddata(pt_rddata), .pt_wrdata(pt_wrdata), .pt_wren(pt_wren));
+    // prga p(.clk(clk), .rst_n(rst_n), .en(en_prga), .rdy(rdy_prga), .key(key),
+    //         .s_addr(s_addr_prga), .s_rddata(s_rddata), .s_wrdata(s_wrdata_prga), .s_wren(s_wren_prga),
+    //         .ct_addr(ct_addr), .ct_rddata(ct_rddata),
+    //         .pt_addr(pt_addr), .pt_rddata(pt_rddata), .pt_wrdata(pt_wrdata), .pt_wren(pt_wren));
 
     // your code here
 

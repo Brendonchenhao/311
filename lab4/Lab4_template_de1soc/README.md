@@ -79,7 +79,10 @@ cracking the message use the decryption core
 
 |Message   |Result | Solution    | Comment |
 |---|---|---|---|
-|   |   | | |
+| 1  |   | | |
+| 2  | congratation on task 2   | | |
+| 3  | ubc elec and comp engineering   | | [![Image from Gyazo](https://i.gyazo.com/117fcd7700ff7d0721f0a22a37a4d4fb.png)](https://gyazo.com/117fcd7700ff7d0721f0a22a37a4d4fb)|
+
 
 ## Bonus
 

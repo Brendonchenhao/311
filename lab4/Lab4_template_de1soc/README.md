@@ -64,7 +64,6 @@ for k = 0 to message_length-1 { // message_length is 32 in our implementation
 
 Build a flash memory loader. 
 > secret keys are 3 bytes
-> 
 
 ## Task 2: everyday I am shuffling
 
@@ -79,7 +78,7 @@ cracking the message use the decryption core
 
 |Message   |Result | Solution    | Comment |
 |---|---|---|---|
-| 1  |   | | |
+| 1  |this course is my favorite   | | [![Image from Gyazo](https://i.gyazo.com/634c1422cee0c2757441b3bde5bd3b0a.png)](https://gyazo.com/634c1422cee0c2757441b3bde5bd3b0a)|
 | 2  | congratation on task 2   | | |
 | 3  | ubc elec and comp engineering   | | [![Image from Gyazo](https://i.gyazo.com/117fcd7700ff7d0721f0a22a37a4d4fb.png)](https://gyazo.com/117fcd7700ff7d0721f0a22a37a4d4fb)|
 
@@ -92,7 +91,7 @@ parallel debugging.
 
 |Problem|file,lines|solution| comments|
 |---|---|---|---|
-| | | | |
+|task 2b, first message is ):is.... | change the initial i.  | | |
 | | | | |
 | | | | |
 

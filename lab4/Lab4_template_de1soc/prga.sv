@@ -30,9 +30,8 @@ module prga(input logic clk, input logic rst_n,
     		j <= 8'b0;
     		k <= 8'b0;
     		rdy <= 1;
-    		// length_obtained <= 0; //we will get it soon
     		s_wren <= 0;
-    		s_addr <= 1; //read from S[1] to get initial S[i]
+			s_addr <= 1; //read from S[1] to get initial S[i]
     		ct_addr <= 0; //read initial value of ciphertext to find size of string
     		pt_wren <= 0;
     		pt_addr <= 0; //later we will start writing to plaintext
@@ -43,7 +42,6 @@ module prga(input logic clk, input logic rst_n,
 			    		i <= 8'b1;
 			    		j <= 8'b0;
 			    		k <= 8'b0;
-			    		// length_obtained <= 0; //we will get it soon
 			    		s_wren <= 0;
 			    		s_addr <= 1; //read from S[1] to get initial S[i]
 			    		ct_addr <= 0; //read initial value of ciphertext to find size of string
@@ -80,8 +78,8 @@ module prga(input logic clk, input logic rst_n,
                         // since we have to wait for writing, we can set up the read f for the next memory operation
     					temp_j <= s_rddata; //previously read S[j] from last state
     					s_addr <= f; //f = (temp_i + s_rddata) % 256; 
-    					if(f == i)
-    						pick_temp_f <= 1; 
+    					// if(f == i)
+    					// 	pick_temp_f <= 1; 
     					s_wren <= 0;
     					temp_cipher <= ct_rddata;
     					current_state <= SWAP_I;
@@ -89,8 +87,8 @@ module prga(input logic clk, input logic rst_n,
     			SWAP_I: begin
     					s_addr <= i; //update S[i]
     					s_wrdata <= temp_j; //S[i] = last read S[j]
-    					if(pick_temp_f)
-    						temp_f <= temp_j;
+    					// if(pick_temp_f)
+    					// 	temp_f <= temp_j;
     					s_wren <= 1;
     					current_state <= READ_I_AND_SET_PT;
     				end
@@ -101,16 +99,18 @@ module prga(input logic clk, input logic rst_n,
     				    s_wren <= 0;
     				    //set the plain text to f[k] (in s_rdddata) xor ciphertext[k] (in temp_cipher)
     				    pt_addr <= k;
-    				    if(pick_temp_f && k != 0) begin
-    				    	pt_wrdata <= temp_f ^ temp_cipher;
-    				    	pick_temp_f <= 0;
-    				    end else
-    				    	pt_wrdata <= s_rddata ^ temp_cipher;
-    				    pt_wren <= 1;
+    				    // if(pick_temp_f && k != 0) begin
+    				    // 	pt_wrdata <= temp_f ^ temp_cipher;
+    				    // 	pick_temp_f <= 0;
+    				    // end 
+						// else
+    				    pt_wrdata <= s_rddata ^ temp_cipher;
+
+						pt_wren <= 1;
 
     				    if(new_k < 32) begin // we know that the message length is 32
 							current_state <= WAIT_FOR_CT_AND_I;    
-                            ct_addr <= k + 1; // read the next key	
+                            ct_addr <= k; // read the next key	
                             end			
 						else
 							current_state <= INIT;

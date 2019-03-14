@@ -28,19 +28,9 @@ module lab4(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
     			PROCESSING: begin
     					if(rdy) begin
     						if(key_valid) begin
-    							HEX0 <= key_0;
-    							HEX1 <= key_1;
-    							HEX2 <= key_2;
-    							HEX3 <= key_3;
-    							HEX4 <= key_4;
-    							HEX5 <= key_5;
+								LEDR = 10'b11111_11111;
     						end else begin
-    							HEX0 <= 7'b1_000_000;
-    							HEX1 <= 7'b1_000_000;
-    							HEX2 <= 7'b1_000_000;
-    							HEX3 <= 7'b1_000_000;
-    							HEX4 <= 7'b1_000_000;
-    							HEX5 <= 7'b1_000_000;
+								LEDR = 10'b00000_00000;
     						end
     					end
     				end

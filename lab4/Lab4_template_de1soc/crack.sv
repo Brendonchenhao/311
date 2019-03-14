@@ -1,7 +1,16 @@
 module crack(input logic clk, input logic rst_n,
              input logic en, output logic rdy,
              output logic [23:0] key, output logic key_valid,
-             output logic [7:0] ct_addr, input logic [7:0] ct_rddata);
+             output logic [7:0] ct_addr, input logic [7:0] ct_rddata,
+             output logic [6:0] HEX0, output logic [6:0] HEX1, output logic [6:0] HEX2,
+             output logic [6:0] HEX3, output logic [6:0] HEX4, output logic [6:0] HEX5
+             );
+    SevenSegmentDisplayDecoder(.nIn(key[23:20]), .ssOut(HEX5));
+    SevenSegmentDisplayDecoder(.nIn(key[19:16]), .ssOut(HEX4));
+    SevenSegmentDisplayDecoder(.nIn(key[15:12]), .ssOut(HEX3));
+    SevenSegmentDisplayDecoder(.nIn(key[11:8]), .ssOut(HEX2));
+    SevenSegmentDisplayDecoder(.nIn(key[7:4]), .ssOut(HEX1));
+    SevenSegmentDisplayDecoder(.nIn(key[3:0]), .ssOut(HEX0));
 
     enum {INIT, START_CRACKING, WHILE_CRACKING, CHECK_RESULT} current_state;
 
@@ -45,9 +54,8 @@ module crack(input logic clk, input logic rst_n,
 				WHILE_CRACKING: begin
 						en_arc <= 0;
                         //are we about to write to PT? then check if the result is invalid
-                        if(pt_wren && !invalid && (pt_wrdata < 'h20 || pt_wrdata > 'h7E) )
+                        if(pt_wren && !invalid &&  !(( pt_wrdata >= 'd97 && pt_wrdata <= 'd122 ) || pt_wrdata == 'd32)  )
                             invalid <= 1'b1;
-
 						//have we obtained a result yet?
 						if(rdy_arc && !en_arc) begin
 							current_state <= CHECK_RESULT;

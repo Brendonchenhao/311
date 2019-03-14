@@ -1,7 +1,10 @@
-module lab4_task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0] SW,
-             output logic [6:0] HEX0, output logic [6:0] HEX1, output logic [6:0] HEX2,
-             output logic [6:0] HEX3, output logic [6:0] HEX4, output logic [6:0] HEX5,
-             output logic [9:0] LEDR);
+module lab4_task2(
+        input logic CLOCK_50, 
+        input logic [3:0] KEY, 
+        input logic [9:0] SW,
+        output logic [6:0] HEX0, output logic [6:0] HEX1, output logic [6:0] HEX2,
+        output logic [6:0] HEX3, output logic [6:0] HEX4, output logic [6:0] HEX5,
+        output logic [9:0] LEDR);
 
     reg valid;
     wire ready, dm_wren;
@@ -10,9 +13,9 @@ module lab4_task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0]
     //whenever reset is deasserted, set enable to 1
     always_ff @(posedge CLOCK_50 or negedge KEY[3]) begin
     	if(!KEY[3])
-    		valid <= 1'b1;
+            valid <= 1'b1;
     	else
-    		valid <= 1'b0;
+            valid <= 1'b0;
     end
 
     em_mem em(.address(em_addr), .clock(CLOCK_50), .q(em_rddata));

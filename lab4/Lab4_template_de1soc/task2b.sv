@@ -1,5 +1,5 @@
-module prga(input logic clk, input logic rst_n,
-            input logic en, output logic rdy,
+module task2b(input logic clk, input logic rst_n,
+            input logic start, output logic finish,
             input logic [23:0] key,
             output logic [7:0] s_addr, input logic [7:0] s_rddata, output logic [7:0] s_wrdata, output logic s_wren,
             output logic [7:0] ct_addr, input logic [7:0] ct_rddata,
@@ -29,7 +29,7 @@ module prga(input logic clk, input logic rst_n,
     		i <= 8'b1;
     		j <= 8'b0;
     		k <= 8'b0;
-    		rdy <= 1;
+    		finish <= 1;
     		s_wren <= 0;
 			s_addr <= 1; //read from S[1] to get initial S[i]
     		ct_addr <= 0; //read initial value of ciphertext to find size of string
@@ -48,11 +48,11 @@ module prga(input logic clk, input logic rst_n,
 			    		pt_wren <= 0;
 			    		pt_addr <= 0; //later we will start writing to plaintext
 
-	    				if(rdy && en) begin	    					
-	    					rdy <= 0; //not ready anymore
+	    				if(finish && start) begin	    					
+	    					finish <= 0; //not ready anymore
 	    					current_state <= WAIT_FOR_CT_AND_I;
 	    				end else begin
-	    					rdy <= 1;
+	    					finish <= 1;
 	    					current_state <= INIT;
 	    				end
     				end
@@ -119,4 +119,4 @@ module prga(input logic clk, input logic rst_n,
     	end
     end
 
-endmodule: prga
+endmodule

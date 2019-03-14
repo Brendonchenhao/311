@@ -1,5 +1,5 @@
-module ksa(input logic clk, input logic rst_n,
-           input logic en, output logic rdy,
+module task2a(input logic clk, input logic rst_n,
+           input logic start, output logic finish,
            input logic [23:0] key,
            output logic [7:0] addr, input logic [7:0] rddata, output logic [7:0] wrdata, output logic wren);
 
@@ -22,7 +22,7 @@ module ksa(input logic clk, input logic rst_n,
     		//similar to init
     		j <= 8'b0;
     		i <= 8'b0;
-    		rdy <= 1;
+    		finish <= 1;
     		wren <= 0;
     		addr <= 0; //read from S[0] to get initial S[i]
     		current_state <= INIT;
@@ -34,11 +34,11 @@ module ksa(input logic clk, input logic rst_n,
 	    				wren <= 0;  //set to read
 	    			    addr <= 0; //read from S[0] to get initial S[i]
 
-	    				if(rdy && en) begin	    					
-	    					rdy <= 0; //not ready anymore
+	    				if(finish && start) begin	    					
+	    					finish <= 0; //not ready anymore
 	    					current_state <= WAIT_FOR_I;
 	    				end else begin
-	    					rdy <= 1;
+	    					finish <= 1;
 	    					current_state <= INIT;
 	    				end
     				end
@@ -79,4 +79,4 @@ module ksa(input logic clk, input logic rst_n,
     	end
     end
 
-endmodule: ksa
+endmodule

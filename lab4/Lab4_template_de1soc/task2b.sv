@@ -12,10 +12,10 @@ module task2b(
 			output logic ready,
             input logic [23:0] key,
             output logic [7:0] s_addr, input logic [7:0] s_rddata, output logic [7:0] s_wrdata, output logic s_wren,
-            output logic [7:0] ct_addr, input logic [7:0] ct_rddata,
-            output logic [7:0] pt_addr, input logic [7:0] pt_rddata, output logic [7:0] pt_wrdata, output logic pt_wren);
+            output logic [7:0] em_addr, input logic [7:0] em_rddata,
+            output logic [7:0] dm_addr, input logic [7:0] dm_rddata, output logic [7:0] dm_wrdata, output logic dm_wren);
 
-	enum {INIT, WAIT_FOR_CT_AND_I, READ_J, SWAP_J, READ_F_AND_STORE_CT, SWAP_I, READ_I_AND_SET_PT} current_state;
+	enum {INIT, WAIT_FOR_em_AND_I, READ_J, SWAP_J, READ_F_AND_STORE_CT, SWAP_I, READ_I_AND_SET_PT} current_state;
 
 	reg [7:0] j;
     reg [7:0] i;
@@ -42,9 +42,9 @@ module task2b(
     		ready <= 1;
     		s_wren <= 0;
 			s_addr <= 1; //read from S[1] to get initial S[i]
-    		ct_addr <= 0; //read initial value of ciphertext to find size of string
-    		pt_wren <= 0;
-    		pt_addr <= 0; //later we will start writing to plaintext
+    		em_addr <= 0; //read initial value of ciphertext to find size of string
+    		dm_wren <= 0;
+    		dm_addr <= 0; //later we will start writing to plaintext
     		current_state <= INIT;
     	end else begin
     		case (current_state)
@@ -54,20 +54,20 @@ module task2b(
 			    		k <= 8'b0;
 			    		s_wren <= 0;
 			    		s_addr <= 1; //read from S[1] to get initial S[i]
-			    		ct_addr <= 0; //read initial value of ciphertext to find size of string
-			    		pt_wren <= 0;
-			    		pt_addr <= 0; //later we will start writing to plaintext
+			    		em_addr <= 0; //read initial value of ciphertext to find size of string
+			    		dm_wren <= 0;
+			    		dm_addr <= 0; //later we will start writing to plaintext
 
 	    				if(ready && valid) begin	    					
 	    					ready <= 0; //not ready anymore
-	    					current_state <= WAIT_FOR_CT_AND_I;
+	    					current_state <= WAIT_FOR_em_AND_I;
 	    				end else begin
 	    					ready <= 1;
 	    					current_state <= INIT;
 	    				end
     				end
-    			WAIT_FOR_CT_AND_I: begin
-    					pt_wren <= 0;
+    			WAIT_FOR_em_AND_I: begin
+    					dm_wren <= 0;
     					current_state <= READ_J;
 					end
 				READ_J: begin
@@ -91,7 +91,7 @@ module task2b(
     					if(f == i)
     						pick_temp_f <= 1; 
     					s_wren <= 0;
-    					temp_cipher <= ct_rddata;
+    					temp_cipher <= em_rddata;
     					current_state <= SWAP_I;
     				end
     			SWAP_I: begin
@@ -108,19 +108,19 @@ module task2b(
     					s_addr <= new_i; //read S[i] at the new location
     				    s_wren <= 0;
     				    //set the plain text to f[k] (in s_rdddata) xor ciphertext[k] (in temp_cipher)
-    				    pt_addr <= k;
+    				    dm_addr <= k;
     				    if(pick_temp_f && k != 0) begin
-    				    	pt_wrdata <= temp_f ^ temp_cipher;
+    				    	dm_wrdata <= temp_f ^ temp_cipher;
     				    	pick_temp_f <= 0;
     				    end 
 						else
-    				    pt_wrdata <= s_rddata ^ temp_cipher;
+    				    dm_wrdata <= s_rddata ^ temp_cipher;
 
-						pt_wren <= 1;
+						dm_wren <= 1;
 
     				    if(new_k < 32) begin // we know that the message length is 32
-							current_state <= WAIT_FOR_CT_AND_I;    
-                            ct_addr <= k + 1; // read the next key	
+							current_state <= WAIT_FOR_em_AND_I;    
+                            em_addr <= k + 1; // read the next key	
                             end			
 						else
 							current_state <= INIT;

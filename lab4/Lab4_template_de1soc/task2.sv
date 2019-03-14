@@ -1,8 +1,8 @@
 module task2(input logic clk, input logic rst_n,
             input logic valid, output logic ready,
             input logic [23:0] key,
-            output logic [7:0] ct_addr, input logic [7:0] ct_rddata,
-            output logic [7:0] pt_addr, input logic [7:0] pt_rddata, output logic [7:0] pt_wrdata, output logic pt_wren);
+            output logic [7:0] em_addr, input logic [7:0] em_rddata,
+            output logic [7:0] dm_addr, input logic [7:0] dm_rddata, output logic [7:0] dm_wrdata, output logic dm_wren);
 
     enum {INIT, PROCESSING_INIT, PROCESSING_KSA, PROCESSING_PRGA} init_state;
 
@@ -84,7 +84,7 @@ module task2(input logic clk, input logic rst_n,
 
     task2b t2b(.clk(clk), .rst_n(rst_n), .valid(valid_prga), .ready(ready_prga), .key(key),
             .s_addr(s_addr_prga), .s_rddata(s_rddata), .s_wrdata(s_wrdata_prga), .s_wren(s_wren_prga),
-            .ct_addr(ct_addr), .ct_rddata(ct_rddata),
-            .pt_addr(pt_addr), .pt_rddata(pt_rddata), .pt_wrdata(pt_wrdata), .pt_wren(pt_wren));
+            .em_addr(em_addr), .em_rddata(em_rddata),
+            .dm_addr(dm_addr), .dm_rddata(dm_rddata), .dm_wrdata(dm_wrdata), .dm_wren(dm_wren));
 
 endmodule

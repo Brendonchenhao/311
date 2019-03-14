@@ -4,8 +4,8 @@ module task3(input logic clk,
              output logic ready,
              output logic [23:0] key, 
              output logic key_valid,
-             output logic [7:0] ct_addr, 
-             input logic [7:0] ct_rddata,
+             output logic [7:0] em_addr, 
+             input logic [7:0] em_rddata,
              output logic [6:0] HEX0, output logic [6:0] HEX1, output logic [6:0] HEX2,
              output logic [6:0] HEX3, output logic [6:0] HEX4, output logic [6:0] HEX5
              );
@@ -19,16 +19,16 @@ module task3(input logic clk,
 
     enum {INIT, START_CRACKING, WHILE_CRACKING, CHECK_RESULT} current_state;
 
-    reg valid_arc, ready_arc, pt_wren;
-    reg [7:0] pt_addr, pt_wrdata, pt_rddata;
+    reg valid_arc, ready_arc, dm_wren;
+    reg [7:0] dm_addr, dm_wrdata, dm_rddata;
 
-    pt_mem s(.address(pt_addr), .clock(clk), .data(pt_wrdata), .wren(pt_wren), .q(pt_rddata));
+    dm_mem s(.address(dm_addr), .clock(clk), .data(dm_wrdata), .wren(dm_wren), .q(dm_rddata));
     
     task2 t2(.clk(clk), .rst_n(rst_n),
             .valid(valid_arc), .ready(ready_arc),
             .key(key),
-            .ct_addr(ct_addr), .ct_rddata(ct_rddata),
-            .pt_addr(pt_addr), .pt_rddata(pt_rddata), .pt_wrdata(pt_wrdata), .pt_wren(pt_wren));
+            .em_addr(em_addr), .em_rddata(em_rddata),
+            .dm_addr(dm_addr), .dm_rddata(dm_rddata), .dm_wrdata(dm_wrdata), .dm_wren(dm_wren));
 
     reg invalid;
 
@@ -60,7 +60,7 @@ module task3(input logic clk,
 				WHILE_CRACKING: begin
 						valid_arc <= 0;
                         //are we about to write to PT? then check if the result is invalid
-                        if(pt_wren && !invalid &&  !(( pt_wrdata >= 'd97 && pt_wrdata <= 'd122 ) || pt_wrdata == 'd32)  )
+                        if(dm_wren && !invalid &&  !(( dm_wrdata >= 'd97 && dm_wrdata <= 'd122 ) || dm_wrdata == 'd32)  )
                             invalid <= 1'b1;
 						//have we obtained a result yet?
 						if(ready_arc && !valid_arc) begin

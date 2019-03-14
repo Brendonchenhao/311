@@ -23,6 +23,7 @@ module task3(input logic clk,
     reg [7:0] pt_addr, pt_wrdata, pt_rddata;
 
     pt_mem s(.address(pt_addr), .clock(clk), .data(pt_wrdata), .wren(pt_wren), .q(pt_rddata));
+    
     task2 t2(.clk(clk), .rst_n(rst_n),
             .valid(valid_arc), .ready(ready_arc),
             .key(key),
@@ -42,7 +43,7 @@ module task3(input logic clk,
     		case(current_state)
     			INIT: begin
     					//if enable, reset the key and valid all over
-	    		 		if(start) begin
+	    		 		if(valid) begin
 	    		 			key <= 24'b0;
 	    		 		    key_valid <= 1'b0;
 	    		 			ready <= 1'b0;  		 			

@@ -14,7 +14,6 @@ module task2a(input logic clk, input logic rst_n,
            input logic [23:0] key,
            output logic [7:0] addr, input logic [7:0] rddata, output logic [7:0] wrdata, output logic wren);
 
-    // your code here
     enum {INIT, WAIT_FOR_I, READ_J, WAIT_FOR_J, SWAP_J, SWAP_I, READ_I} current_state;
 
     reg [7:0] j;
@@ -46,10 +45,10 @@ module task2a(input logic clk, input logic rst_n,
 	    			    addr <= 0; //read from S[0] to get initial S[i]
 
 	    				if(ready && valid) begin	    					
-	    					ready <= 0; //not ready anymore
+	    					ready <= 1'b0; //not ready anymore
 	    					current_state <= WAIT_FOR_I;
 	    				end else begin
-	    					ready <= 1;
+	    					ready <= 1'b1;
 	    					current_state <= INIT;
 	    				end
     				end
@@ -61,27 +60,26 @@ module task2a(input logic clk, input logic rst_n,
     					temp_i <= rddata; 
                         //store the value read from S[i], which is set up at the end of the READ_I 					
     					addr <= new_j; //get S[new_j]
-    					wren <= 0;
+    					wren <= 1'b0;
     					current_state <= SWAP_J;
     				end
     			SWAP_J: begin
     					addr <= j; //update S[j]
     					wrdata <= temp_i; // S[j] = previously read S[i] which was stored in temp_i
-    					wren <= 1;
+    					wren <= 1'b1;
     					current_state <= SWAP_I;
     				end
     			SWAP_I: begin
     					addr <= i; //update S[i]
     					wrdata <= rddata; // S[i] = previously read S[j] from last state
-    					wren <= 1;
+    					wren <= 1'b1;
     					current_state <= READ_I;
     				end
-
     			READ_I: begin
     					i <= new_i; //increase i by 1
     					addr <= new_i; //read S[i] at the new location
-    				    wren <= 0;
-						if(i < 255)
+    				    wren <= 1'b0;
+						if(i < 8'd255)
 							current_state <= WAIT_FOR_I;
 						else
 							current_state <= INIT;

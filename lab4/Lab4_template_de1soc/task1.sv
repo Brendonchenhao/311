@@ -8,8 +8,8 @@ It's used to initialize the s_mem.
 */
 module task1(input logic clk, 
 			input logic rst_n,
-			input logic start, 
-			output logic finish,
+			input logic valid, 
+			output logic ready,
 			output logic [7:0] addr, 
 			output logic [7:0] wrdata, 
 			output logic wren);
@@ -25,7 +25,7 @@ always_ff @(posedge clk or negedge rst_n) begin
 			counter <= 8'b1; //set the counter to the first value required in the ASSIGN step
 			current_state <= INIT;
 			wren <= 0;
-			finish <= 1;
+			ready <= 1;
 		end
 	end else begin
 			case (current_state)
@@ -33,13 +33,13 @@ always_ff @(posedge clk or negedge rst_n) begin
 					addr <= 8'b0; //initialize i to 0
 					wrdata <= 8'b0; //initialize s[0] to 0
 					counter <= 8'b1; //set the counter to the first value required in the ASSIGN step
-					if(finish && start) begin
+					if(ready && valid) begin
 						wren <= 1; //start writing the first step
-						finish <= 0; //next step ready should go down
+						ready <= 0; //next step ready should go down
 						current_state <= ASSIGN;
 					end else begin
 						wren <= 0;  //don't write anything here
-						finish <= 1;
+						ready <= 1;
 						current_state <= INIT;
 					end
 				end

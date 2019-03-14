@@ -1,5 +1,15 @@
-module task2b(input logic clk, input logic rst_n,
-            input logic valid, output logic ready,
+/*
+* compute one byte per character in the encrypted message. You will build this in Task 2
+* we define each memory as: 
+working memory: wm(s)
+decrypted message: dm
+encrypted message: em
+*/
+module task2b(
+			input logic clk, 
+			input logic rst_n,
+            input logic valid, 
+			output logic ready,
             input logic [23:0] key,
             output logic [7:0] s_addr, input logic [7:0] s_rddata, output logic [7:0] s_wrdata, output logic s_wren,
             output logic [7:0] ct_addr, input logic [7:0] ct_rddata,

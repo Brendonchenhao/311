@@ -3,23 +3,23 @@ module lab4_task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0]
              output logic [6:0] HEX3, output logic [6:0] HEX4, output logic [6:0] HEX5,
              output logic [9:0] LEDR);
 
-    reg start;
-    wire finish, pt_wren;
+    reg valid;
+    wire ready, pt_wren;
     wire [7:0] ct_addr, pt_addr, ct_rddata, pt_rddata, pt_wrdata;
 
     //whenever reset is deasserted, set enable to 1
     always_ff @(posedge CLOCK_50 or negedge KEY[3]) begin
     	if(!KEY[3])
-    		start <= 1'b1;
+    		valid <= 1'b1;
     	else
-    		start <= 1'b0;
+    		valid <= 1'b0;
     end
 
     ct_mem ct(.address(ct_addr), .clock(CLOCK_50), .q(ct_rddata));
     pt_mem pt(.address(pt_addr), .clock(CLOCK_50), .data(pt_wrdata), .wren(pt_wren), .q(pt_rddata));
 
     task2 t2(.clk(CLOCK_50), .rst_n(KEY[3]),
-            .start(start), .finish(finish),
+            .valid(valid), .ready(ready),
             .key({14'b0, SW}), 
             .ct_addr(ct_addr), .ct_rddata(ct_rddata),
             .pt_addr(pt_addr), .pt_rddata(pt_rddata), .pt_wrdata(pt_wrdata), .pt_wren(pt_wren));

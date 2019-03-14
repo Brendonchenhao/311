@@ -1,5 +1,16 @@
+/*
+* This module completes the second for loop, which will shuffle the array based on the 
+* secret keys. 
+pesudo code:
+j = 0
+for i = 0 to 255 {
+    // y: secret_key[i] is 1 byte
+    j = (j + s[i] + secret_key[i mod keylength] ) //keylength is 3 in our impl.
+    swap values of s[i] and s[j]
+}
+*/
 module task2a(input logic clk, input logic rst_n,
-           input logic start, output logic finish,
+           input logic valid, output logic ready,
            input logic [23:0] key,
            output logic [7:0] addr, input logic [7:0] rddata, output logic [7:0] wrdata, output logic wren);
 
@@ -11,18 +22,18 @@ module task2a(input logic clk, input logic rst_n,
     reg [7:0] temp_i;
 
     wire [7:0] new_i = i + 1;
-    wire [1:0] i_mod = i % 3;
+    wire [1:0] i_mod = i % 3; // we use this to determine which portions of the key to use
     wire [7:0] key_portion = (i_mod == 0) ? key[23:16] :
     					     (i_mod == 1) ? key[15:8]  :
     					     key[7:0];
-    wire [7:0] new_j = (j + rddata + key_portion) % 256;
+    wire [7:0] new_j = (j + rddata + key_portion) % 256; // new_j updates the j
 
     always_ff @(posedge clk or negedge rst_n) begin
     	if(~rst_n) begin
     		//similar to init
     		j <= 8'b0;
     		i <= 8'b0;
-    		finish <= 1;
+    		ready <= 1;
     		wren <= 0;
     		addr <= 0; //read from S[0] to get initial S[i]
     		current_state <= INIT;
@@ -34,11 +45,11 @@ module task2a(input logic clk, input logic rst_n,
 	    				wren <= 0;  //set to read
 	    			    addr <= 0; //read from S[0] to get initial S[i]
 
-	    				if(finish && start) begin	    					
-	    					finish <= 0; //not ready anymore
+	    				if(ready && valid) begin	    					
+	    					ready <= 0; //not ready anymore
 	    					current_state <= WAIT_FOR_I;
 	    				end else begin
-	    					finish <= 1;
+	    					ready <= 1;
 	    					current_state <= INIT;
 	    				end
     				end

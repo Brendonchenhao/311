@@ -1,7 +1,7 @@
 module task3(input logic clk, 
              input logic rst_n,
-             input logic start, 
-             output logic finish,
+             input logic valid, 
+             output logic ready,
              output logic [23:0] key, 
              output logic key_valid,
              output logic [7:0] ct_addr, 
@@ -19,12 +19,12 @@ module task3(input logic clk,
 
     enum {INIT, START_CRACKING, WHILE_CRACKING, CHECK_RESULT} current_state;
 
-    reg start_arc, finish_arc, pt_wren;
+    reg valid_arc, ready_arc, pt_wren;
     reg [7:0] pt_addr, pt_wrdata, pt_rddata;
 
     pt_mem s(.address(pt_addr), .clock(clk), .data(pt_wrdata), .wren(pt_wren), .q(pt_rddata));
     task2 t2(.clk(clk), .rst_n(rst_n),
-            .start(start_arc), .finish(finish_arc),
+            .valid(valid_arc), .ready(ready_arc),
             .key(key),
             .ct_addr(ct_addr), .ct_rddata(ct_rddata),
             .pt_addr(pt_addr), .pt_rddata(pt_rddata), .pt_wrdata(pt_wrdata), .pt_wren(pt_wren));
@@ -36,33 +36,33 @@ module task3(input logic clk,
     		key <= 24'b0;
     		key_valid <= 1'b0;
             invalid <= 1'b0;
-    		finish <= 1'b1;
+    		ready <= 1'b1;
     		current_state <= INIT;
     	end else begin
     		case(current_state)
     			INIT: begin
-    					//if enable, reset the key and start all over
+    					//if enable, reset the key and valid all over
 	    		 		if(start) begin
 	    		 			key <= 24'b0;
 	    		 		    key_valid <= 1'b0;
-	    		 			finish <= 1'b0;  		 			
+	    		 			ready <= 1'b0;  		 			
 	    		 			current_state <= START_CRACKING;
 	    		 		end
 					end
 				START_CRACKING: begin
-						if(finish_arc) begin
-							start_arc <= 1;
+						if(ready_arc) begin
+							valid_arc <= 1;
                             invalid <= 1'b0; //current key is still valid until proven wrong
 							current_state <= WHILE_CRACKING;
 						end
 					end
 				WHILE_CRACKING: begin
-						start_arc <= 0;
+						valid_arc <= 0;
                         //are we about to write to PT? then check if the result is invalid
                         if(pt_wren && !invalid &&  !(( pt_wrdata >= 'd97 && pt_wrdata <= 'd122 ) || pt_wrdata == 'd32)  )
                             invalid <= 1'b1;
 						//have we obtained a result yet?
-						if(finish_arc && !start_arc) begin
+						if(ready_arc && !valid_arc) begin
 							current_state <= CHECK_RESULT;
 						end
 					end
@@ -70,7 +70,7 @@ module task3(input logic clk,
                         //valid result
 						if(!invalid) begin
                             key_valid <= 1'b1;
-                            finish <= 1'b1;
+                            ready <= 1'b1;
                             current_state <= INIT;
                         end else begin
                             //if invalid result, check if we can increase the key
@@ -78,7 +78,7 @@ module task3(input logic clk,
                                 key <= key + 1;
                                 current_state <= START_CRACKING;
                             end else begin
-                                finish <= 1'b1;
+                                ready <= 1'b1;
                                 current_state <= INIT;
                             end
                         end

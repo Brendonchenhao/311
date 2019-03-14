@@ -47,13 +47,11 @@ always_ff @(posedge clk or negedge rst_n) begin
 					addr <= counter;
 					wrdata <= counter;
 					counter <= counter + 1; //increase counter
-					//wren <= 1; // write to current output
 					if(counter < 255)
 						current_state <= ASSIGN;
 					else
 						current_state <= INIT;
 				end
-
 			endcase // current_state
 	end
 end

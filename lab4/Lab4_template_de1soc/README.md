@@ -81,20 +81,25 @@ cracking the message use the decryption core
 | 1  |this course is my favorite   | | [![Image from Gyazo](https://i.gyazo.com/634c1422cee0c2757441b3bde5bd3b0a.png)](https://gyazo.com/634c1422cee0c2757441b3bde5bd3b0a)|
 | 2  | congratation on task 2   | | |
 | 3  | ubc elec and comp engineering   | | [![Image from Gyazo](https://i.gyazo.com/117fcd7700ff7d0721f0a22a37a4d4fb.png)](https://gyazo.com/117fcd7700ff7d0721f0a22a37a4d4fb)|
-
+|4 | rc4 is not very secure ||[![Image from Gyazo](https://i.gyazo.com/378d4cafb808f7742b246777e47d285e.png)](https://gyazo.com/378d4cafb808f7742b246777e47d285e) | 
+|5 | you have solid vhdl skills | | [![Image from Gyazo](https://i.gyazo.com/d86fe04622db00981204001a8e2579a4.png)](https://gyazo.com/d86fe04622db00981204001a8e2579a4)|
+|6 |this one is tricky with zero key |  | [![Image from Gyazo](https://i.gyazo.com/5ca1e9cdb45c1a50d7335c535df6aa75.png)](https://gyazo.com/5ca1e9cdb45c1a50d7335c535df6aa75)| 
+|7 | vhdl ninjia saved the day | | [![Image from Gyazo](https://i.gyazo.com/9ab994ffe5a59cd36e178ba12a58d155.png)](https://gyazo.com/9ab994ffe5a59cd36e178ba12a58d155)|
+| 8 |good luck on your exam| |[![Image from Gyazo](https://i.gyazo.com/2fc1912b8605fb715c7958c6cdd2d500.png)](https://gyazo.com/2fc1912b8605fb715c7958c6cdd2d500)| 
 
 ## Bonus
 
 parallel debugging. 
 
+
 ## Debug Log
 
 |Problem|file,lines|solution| comments|
 |---|---|---|---|
-|task 2b, first message is ):is.... | change the initial i.  | | |
-| | | | |
+|task 2b, first message is ):is.... | change the initial i.  |didnt solve it | |
+| | changed new_k and so on | break the code for some reasons | |
 | | | | |
 
 ## Total hours
 
-1 + 
+10

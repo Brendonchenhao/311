@@ -15,8 +15,8 @@ module lab4_task2(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0]
     		valid <= 1'b0;
     end
 
-    em_mem ct(.address(em_addr), .clock(CLOCK_50), .q(em_rddata));
-    dm_mem pt(.address(dm_addr), .clock(CLOCK_50), .data(dm_wrdata), .wren(dm_wren), .q(dm_rddata));
+    em_mem em(.address(em_addr), .clock(CLOCK_50), .q(em_rddata));
+    dm_mem dm(.address(dm_addr), .clock(CLOCK_50), .data(dm_wrdata), .wren(dm_wren), .q(dm_rddata));
 
     task2 t2(.clk(CLOCK_50), .rst_n(KEY[3]),
             .valid(valid), .ready(ready),

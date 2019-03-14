@@ -4,7 +4,7 @@ module lab4_task3(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0]
              output logic [9:0] LEDR);
     reg valid, ready;
     wire key_valid;
-    wire [7:0] ct_addr, ct_rddata;
+    wire [7:0] em_addr, em_rddata;
     wire [23:0] key;
     reg [6:0] key_0, key_1, key_2, key_3, key_4, key_5;
 
@@ -37,7 +37,7 @@ module lab4_task3(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0]
     	end
     end
 
-    ct_mem ct(.address(ct_addr), .clock(CLOCK_50), .q(ct_rddata));
+    em_mem ct(.address(em_addr), .clock(CLOCK_50), .q(em_rddata));
     task3 t3(.clk(CLOCK_50), 
             .HEX0(HEX0),
             .HEX1(HEX1),
@@ -48,6 +48,5 @@ module lab4_task3(input logic CLOCK_50, input logic [3:0] KEY, input logic [9:0]
             .rst_n(KEY[3]),
             .valid(valid), .ready(ready),
             .key(key), .key_valid(key_valid),
-            .ct_addr(ct_addr), .ct_rddata(ct_rddata));
-
+            .em_addr(em_addr), .em_rddata(em_rddata));
 endmodule

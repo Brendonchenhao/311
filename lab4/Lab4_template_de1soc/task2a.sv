@@ -12,7 +12,10 @@ for i = 0 to 255 {
 module task2a(input logic clk, input logic rst_n,
            input logic valid, output logic ready,
            input logic [23:0] key,
-           output logic [7:0] addr, input logic [7:0] rddata, output logic [7:0] wrdata, output logic wren);
+           output logic [7:0] addr, 
+		   input logic [7:0] rddata, 
+		   output logic [7:0] wrdata, 
+		   output logic wren);
 
     enum {INIT, WAIT_FOR_I, READ_J, WAIT_FOR_J, SWAP_J, SWAP_I, READ_I} current_state;
 

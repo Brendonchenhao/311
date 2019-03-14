@@ -48,7 +48,40 @@ for k = 0 to message_length-1 { // message_length is 32 in our implementation
 }
 
 // Task 3: brute force solving. 
-
+key_max = FF_FFFF; // 24 bits, 6 bytes
+invalid = 0;
+key_valid;
+for key = 0 to key_max{
+    for i = 0 to 255 {
+        s[i] = i;
+    }
+    j = 0
+    for i = 0 to 255 {
+        j = (j + s[i] + key[i mod keylength] ) //keylength is 3 in our impl.
+        swap values of s[i] and s[j]
+    }
+    i = 0, j=0
+    for k = 0 to message_length-1 { // message_length is 32 in our implementation
+        i = i+1
+        j = j+s[i]
+        swap values of s[i] and s[j]
+        f = s[ (s[i]+s[j]) ]
+        decrypted_output[k] = f xor encrypted_input[k] // 8 bit wide XOR function
+        
+        // added for the new task
+        if not (decrypted_output[k] > 97 && decrypted_output[k] < 122 )|| decrypted_output[k] == 32{
+            invalid = 1;
+            break;
+        }else{
+            decrypted_output[k] = f xor encrypted_input[k] // 8 bit wide XOR function
+        }
+    }
+    // after message is finished, if still valid we return the key. 
+    if invalid{
+        key_valid = key;
+        break;
+    }
+}
 ```
 
 ### Solution review
@@ -64,6 +97,15 @@ for k = 0 to message_length-1 { // message_length is 32 in our implementation
 
 Build a flash memory loader. 
 > secret keys are 3 bytes
+
+### Valid Ready 
+[sourced](https://www.cerc.utexas.edu/~deronliu/vlsi1/lab3/2014_fall_VLSI_I/LAB3_Website/handshake/handshake.pdf)
+
+[![Image from Gyazo](https://i.gyazo.com/de813b5d46dacc5781d0d568df838dfa.png)](https://gyazo.com/de813b5d46dacc5781d0d568df838dfa)
+
+[![Image from Gyazo](https://i.gyazo.com/c747f75f76ca076a0b4c06a26cfedfee.png)](https://gyazo.com/c747f75f76ca076a0b4c06a26cfedfee)
+
+The beauty of it is: instead of using valid to indicate that some data is ready, we can just say that the module is valid, it's almost like the master turn on the slave, and ready is an respond from the slave to tell master that the module is ready to be run again. That means whenever the program is running, it's ready will be deasserted and the master can wait on ready signal to determine the next step. 
 
 ## Task 2: everyday I am shuffling
 
@@ -89,7 +131,7 @@ cracking the message use the decryption core
 
 ## Bonus
 
-parallel debugging. 
+parallel debugging. Yeah, no... I have got midterms. 
 
 
 ## Debug Log
@@ -97,9 +139,9 @@ parallel debugging.
 |Problem|file,lines|solution| comments|
 |---|---|---|---|
 |task 2b, first message is ):is.... | change the initial i.  |didnt solve it | |
-| | changed new_k and so on | break the code for some reasons | |
+| | changed new_k and so on | break the code for some reasons | Still didn't solve it|
 | | | | |
 
 ## Total hours
 
-10
+15

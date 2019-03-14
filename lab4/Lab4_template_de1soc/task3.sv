@@ -84,8 +84,7 @@ module task3(input logic clk,
                             end
                         end
 					end
-
-    		endcase // current_state
+    		endcase 
     	end
     end
 

@@ -140,7 +140,8 @@ parallel debugging. Yeah, no... I have got midterms.
 |---|---|---|---|
 |task 2b, first message is ):is.... | change the initial i.  |didnt solve it | |
 | | changed new_k and so on | break the code for some reasons | Still didn't solve it|
-| | | | |
+| we got: 1000010100101000 instead of 0111010001101000 | | | |
+[![Image from Gyazo](https://i.gyazo.com/6d064ece6b38e9b7c36ad44e26698751.png)](https://gyazo.com/6d064ece6b38e9b7c36ad44e26698751)
 
 ## Total hours
 
